@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script type="text/javascript"> 
+// Logic example
+var quantity = 5;
+
+// `if (<expression>) <body> else <body>`
+// `if` statements test the expression given in the parenthesis,
+//		only if the statement is `true`, does the paired body run
+// otherwise, if there is an `else` statement paired with it
+//		the content of the `else` body will run
+// `if` is similar to 'var', it is a keyword.
+if (quantity > 10) {
+	console.log("Thats a lot")	
+	if (quantity > 99) {
+		console.log("Thats really a lot")
+	}
+} else {
+	console.log("Thats not that much...")		
+} 
+
+// `for (<initialize> ; <condition> ; <increment>) <body>`
+// the `for` keyword defines a loop definition.
+//		The <initialize> section gets executed first
+//		`TopOfLoop`: The <condition> is checked 
+//			If <condition> is true, the <body> gets run
+//			(otherwise control skips to after the loop)
+//			When the end of the <body> is reached, the <increment> is run, and control goes back to `TopOfLoop`	
+var sum = 0;
+var start = new Date().getTime(); // Get timestamp before running loop
+for (var i = 0; i < 1000000000; i++) {
+	sum += i;
+}
+var end = new Date().getTime(); // Get timestamp after running loop
+var diff = end - start;
+console.log(sum);
+console.log("It only took " + diff + "ms")
+
+
+// A while loop equivelant to the above for loop:
+sum = 0;
+i = 0;
+
+start = new Date().getTime();
+// `while ( <condition> ) <body>`
+while (i < 1000000000) {
+	sum += i;
+	i++
+}
+end = new Date().getTime();
+
+diff = end - start;
+
+		
+		
+		
+		</script>
+	</head>
+	<body bgcolor="#123456" text="#DBEEFD">
+		Hello World On Page
+		
+	</body>
+</html>

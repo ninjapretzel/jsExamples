@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script type="text/javascript">
+// Javascript embedded in a page
+
+// Variable declaration
+// `<kind> <variableName> = <expression>`
+// kind can be choosen from the set { let, var, const } 
+// `const`s cannot be reassigned
+// `let` and `var` are similar, but have a subtle difference
+// `variableName` cannot have whitespace, but can have underscores '_'
+// an `expression` can be just a value
+// One kind of such value is a `string`, a sequence of characters
+//		Strings begin with a single or double quote, or a backtick
+//		they end with the same character they begin with:
+var name = "Chuck";
+// Another kind of value is a `number`, which we can do math with
+var numPizzas = 25;
+// We could also use 'prompt' to take input from the user.
+//		This pauses the page and displays a dialog.
+// var numPizzas = prompt("How many pizzas do you want?");
+// This would probably point to the same memory as 'name'
+var bestGuyEver = "Chuck";
+// Another kind of value is a `boolean`, a `true` or `false`.
+var awesome = true;
+
+// We can also do math in the expression 
+var cost = numPizzas * 5.00;
+
+// Function call
+// `<functionName> ( <parameters> )`
+// `<functionName> ( <expression <, expression?>* >? )`
+// Previously was 'alert', which would pause the page,
+//		and display a window
+console.log("Hello World")
+var msg2 = "You have " + numPizzas + " pizzas"
+console.log(msg2)
+console.log("The total is " + (numPizzas * 5.00) + "$")
+
+// Some functions become values, and can be stored
+// var pay = confirm("Do you want to pay your tab now?")
+		</script>
+	</head>
+	<body bgcolor="#123456" text="#DBEEFD">
+		Hello World On Page
+		
+	</body>
+</html>
