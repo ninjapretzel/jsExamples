@@ -1,0 +1,90 @@
+><html>
+	<head>
+		
+	</head>
+	<body>
+		<p id="output"></p>
+		<script>
+			const choices = [ 'rock', 'paper', 'scissors' ]
+			const output = document.getElementById("output")
+			
+			let wins = 0;
+			let losses = 0;
+			let ties = 0;
+			
+			for (let i = 0; i < 10; i = i + 1) {
+				
+				let userChoice = null;
+				while (userChoice === null) {
+					userChoice = prompt("game " + i + ": Choose rock, paper, or scissors").toLocaleLowerCase();
+					
+					if (!choices.includes(userChoice)) {
+						userChoice = null;
+					}
+				}
+				
+				// User must have chosen "rock", "paper", or "scissors"
+				
+				// generate random number for computer in range [0, 2]
+				let compChoice = Math.floor(Math.random() * 3);
+				// pick element at the chosen position
+				compChoice = choices[compChoice]
+				
+				output.innerHTML += "Player chose " + userChoice 
+					+ ", computer chose " + compChoice
+					+ "<br />";
+				
+				if (userChoice === "rock") {
+					if (compChoice === "rock") {
+						ties = ties + 1;
+						output.innerHTML += "Tie Game!<br />"
+					}
+					if (compChoice === "paper") {
+						losses += 1;
+						output.innerHTML += "You Lose!<br />"
+					}
+					if (compChoice==="scissors") {
+						wins++;
+						output.innerHTML += "You Win!<br />"
+					}
+				}
+				
+				
+				if (userChoice === "paper") {
+					if (compChoice === "paper") {
+						ties = ties + 1;
+						output.innerHTML += "Tie Game!<br />"
+					}
+					if (compChoice === "scissors") {
+						losses += 1;
+						output.innerHTML += "You Lose!<br />"
+					}
+					if (compChoice==="rock") {
+						wins++;
+						output.innerHTML += "You Win!<br />"
+					}
+				}
+				
+				
+				if (userChoice === "scissors") {
+					if (compChoice === "scissors") {
+						ties = ties + 1;
+						output.innerHTML += "Tie Game!<br />"
+					}
+					if (compChoice === "rock") {
+						losses += 1;
+						output.innerHTML += "You Lose!<br />"
+					}
+					if (compChoice==="paper") {
+						wins++;
+						output.innerHTML += "You Win!<br />"
+					}
+				}
+				
+				output.innerHTML += wins + " Wins "
+					+ losses + " Losses "
+					+ ties + " Ties <br />"
+			}
+		</script>
+	</body>
+</html>
