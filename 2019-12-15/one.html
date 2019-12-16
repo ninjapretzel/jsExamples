@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script>
+let annikan = {
+	//name is a key, "Annikan Skywalker" is a value
+	name: "Annikan Skywalker",
+	greet: function() {
+		console.log("Hello, I am your father")
+	},
+	"1st": "first",
+	"2nd": "second",
+}
+
+
+// These two lines are equivelant.
+console.log(annikan.name)
+// the `.` is just shorthand for the [] notation
+// calling console's log with annikan's name
+console["log"](annikan["name"])
+
+// We can't get `annikan.1st` directly, 
+// so we have to use the [] notation.
+console.log(annikan["1st"])
+console.log(annikan["2nd"])
+
+// We can call the 'greet' method we put in annikan
+annikan.greet();
+
+// Print out annikan's content
+console.log(annikan)
+
+// Notice: this probably ends up in the printout, 
+//		even though it happens later.
+annikan.status = "padawan";
+		</script>
+		
+	</head>
+	<body>
+		
+	</body>
+</html>

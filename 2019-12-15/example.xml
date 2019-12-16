@@ -1,0 +1,16 @@
+<SolarSystem>
+	<Star type="yellowDwarf" absMagBrightness="+5.3">
+		
+	</Star>
+	<Planets>
+		<Planet name="mercury" />
+		<Planet name="venus" />
+		<Planet name="earth" />
+		<Planet name="mars" />
+		<Planet name="jupiter" />
+		<Planet name="saturn" />
+		<Planet name="uranus" />
+		<Planet name="neptune" />
+	</Planets>
+	
+</SolarSystem>

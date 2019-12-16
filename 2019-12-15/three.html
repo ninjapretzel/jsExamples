@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		
+	</head>
+	<body>
+		<div id="clickMe">
+			C L I C K _ M E
+		</div>
+		
+		<script>
+console.log(document);
+
+let clickMe = document.getElementById("clickMe");
+console.log(clickMe);
+
+
+var clickCount = 0;
+clickMe.addEventListener("click", function() {
+	clickCount++;
+	if (clickCount == 10) {
+		clickMe.style.color = 'red';
+	}
+	
+	
+	console.log("you clicked me!")
+})
+
+		</script>
+	</body>
+</html>
