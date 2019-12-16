@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	</head>
+	<body>
+		<form>
+			Enter Text: <input type="text" id="classText" />
+		</form>
+		<div id="target">
+			Target
+		</div>
+		<script>
+console.log("\"First line\"\n\tSecond Line\n\t\tThird Line")
+document
+	.getElementById("classText")
+	.addEventListener("keypress", function(eventArg) {
+		console.log(eventArg);
+		
+		if (eventArg.key === "Enter") {
+			
+			// Create new element
+			var element = document.createElement("div");
+			// Add text from input into new element
+			element.innerText = document.getElementById("classText").value
+			// Remove text from input 
+			document.getElementById("classText").value = ""
+			// Put element on the page
+			document.getElementById("target").appendChild(element);
+			
+			// Prevent navigation from 'submitting' the form
+			eventArg.preventDefault();
+		}
+			
+})
+		</script>
+	</body>
+</html>
