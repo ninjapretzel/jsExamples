@@ -1,0 +1,6 @@
+.outlined {
+	/* Prefix required. Even Firefox only supports the -webkit- prefix */
+	-webkit-text-stroke-width: 1px;
+	-webkit-text-stroke-color: black;
+	font-weight: 1000 !important;
+}
