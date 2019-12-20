@@ -1,0 +1,39 @@
+body {
+	background: url("../images/concrete_seamless.png");
+}
+
+header {
+	overflow: auto;
+	background: #DDDDDD;
+	margin: 0;
+	z-index: 99;
+}
+
+header .hero {
+	float: left;
+	margin: 0;
+	background: #aaaaaa;
+	border-radius: 25px;
+	padding: 5px;
+	
+}
+nav a {
+	float: right;
+	margin: 10px 5px;
+	background: #aaaaaa;
+	border-radius: 25px;
+	padding: 5px;
+}
+
+.container {
+	width: 75%;
+	margin: 0 auto;
+	/* background: red; */
+	overflow: auto;
+	clear: both;
+	
+}
+
+#main {
+	margin-top: 140px;
+}
