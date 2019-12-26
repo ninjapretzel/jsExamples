@@ -14,6 +14,7 @@ $(document).ready(function() {
 				let element = $("<div></div>");
 				let location = res[i];
 				element.attr("id", location.Key);
+				element.addClass("col s4 card tiny");
 				
 				element.text(`City: ${location.EnglishName}, ${location.Country.EnglishName}`)
 				//element.text("City: " + location.EnglishName + ` Id: ` + location.ID)
@@ -40,7 +41,7 @@ $(document).ready(function() {
 					console.log(`${location.EnglishName} clicked!`)
 				})
 				
-				$("body").append(element);
+				$(".container").append(element);
 			}
 			
 		}
