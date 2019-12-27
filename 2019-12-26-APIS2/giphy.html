@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Giphy</title>
+	<!-- Jquery -->
+	<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+	<!-- Compiled and minified CSS -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" />
+	<!-- Compiled and minified JavaScript -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+	
+	<script src="keys.js"></script>
+	<script>
+function load(res) {
+	let images = res.data.images;
+	let original = images.original || images.original_mp4;
+	let mp4 = original.mp4;
+	
+	// Remove all old content from the page
+	$("#target").empty();
+	// Create a video element from html
+	// Setup from https://www.w3schools.com/html/html5_video.asp
+	// `` creates an interpolated string
+	// see https://www.tutorialspoint.com/how-to-do-string-interpolation-in-javascript
+	let video = $(`<video autoplay="autoplay" loop="true" width="100%" height="${original.height}" />`)
+	// Add to the page
+	$("#target").append(video);
+	// Create source element from html
+	let source = $(`<source src="${mp4}" type="video/mp4" />`);
+	video.append(source);
+}
+
+// In order to use await, we need an async function 
+async function submit() {
+	// Get text from text box
+	let text = $("#query").val();
+	// Empties text box
+	$("#query").val("");
+	
+	// Make a request to the api and wait for it to finish
+	let res = await $.ajax({
+		method: "GET",
+		url: `xhttps://api.giphy.com/v1/gifs/random?api_key=${giphyKey}&tag=${text}`
+	})
+	
+	// pass the response to load to put the video on the page
+	load(res);
+	// the above is Shorthand for:
+	// $.ajax({
+	// 	method: "GET",
+	// 	url: `xhttps://api.giphy.com/v1/gifs/random?api_key=${giphyKey}&tag=${text}`
+	// }).then(function() {
+	// 	load(res);
+	// })
+		
+		
+	
+}
+
+
+$(document).ready(function() {
+	
+	$("#go").click(function() {
+		submit();
+	})
+	
+	$("#query").keydown(function(event) {
+		if (event.originalEvent.key === "Enter") {
+			event.preventDefault();
+			submit();
+		}
+	})
+	
+})
+
+
+	</script>
+</head>
+<body>
+	<div class="container row">
+		<div class="col s12 m6">
+			<input id="query" type="text" />
+			<button id="go" class="btn waves-effect waves-dark">Search</button>
+		</div>
+		
+		<div id="target" class="col s12 m6"></div>
+	</div>
+</body>
+</html>
