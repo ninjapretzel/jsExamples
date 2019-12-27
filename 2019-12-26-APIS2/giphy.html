@@ -14,26 +14,40 @@
 	
 	<script src="keys.js"></script>
 	<script>
+
+// If we think of this as 'robot theatre', 
+// We could think of this as a repeatable section of the script. 
 function load(res) {
+	// We can think of these as props/actors/stage crew
+	// They are all essentially interchangable if we think of everything as robots.
 	let images = res.data.images;
 	let original = images.original || images.original_mp4;
 	let mp4 = original.mp4;
 	
 	// Remove all old content from the page
+	// We can think of this as changing the stage, which the audience sees.
+	// In this case, we're removing things from the stage (so they don't get seen.)
+	// We may still have the stuff 'backstage' in some cases, or toss it out in others.
 	$("#target").empty();
+	
 	// Create a video element from html
 	// Setup from https://www.w3schools.com/html/html5_video.asp
 	// `` creates an interpolated string
 	// see https://www.tutorialspoint.com/how-to-do-string-interpolation-in-javascript
+	// This would be like crafting a new prop (or new robot actor),
 	let video = $(`<video autoplay="autoplay" loop="true" width="100%" height="${original.height}" />`)
-	// Add to the page
+	// Add to the page (placing it on the stage)
 	$("#target").append(video);
+
 	// Create source element from html
+	// This would again be like crafting a new prop (or robot actor), 
 	let source = $(`<source src="${mp4}" type="video/mp4" />`);
+	// And placing it on the stage, inside of some other prop.
 	video.append(source);
 }
 
 // In order to use await, we need an async function 
+// We could think of this as another section of the script.
 async function submit() {
 	// Get text from text box
 	let text = $("#query").val();
@@ -41,32 +55,38 @@ async function submit() {
 	$("#query").val("");
 	
 	// Make a request to the api and wait for it to finish
+	// ----------------------------
 	let res = await $.ajax({
 		method: "GET",
 		url: `xhttps://api.giphy.com/v1/gifs/random?api_key=${giphyKey}&tag=${text}`
 	})
-	
 	// pass the response to load to put the video on the page
 	load(res);
-	// the above is Shorthand for:
+	// ----------------------------
+	
+	// the above between the dashes is Shorthand for:
 	// $.ajax({
 	// 	method: "GET",
 	// 	url: `xhttps://api.giphy.com/v1/gifs/random?api_key=${giphyKey}&tag=${text}`
 	// }).then(function() {
 	// 	load(res);
 	// })
-		
-		
 	
 }
 
-
+// Set some script to run when the page is ready
+// This fires with the cue "page is loaded" 
 $(document).ready(function() {
 	
+	// Set some script to run when an element is clicked
+	// Get the 'id="go"' element, and make it respond to the 'click' cue
 	$("#go").click(function() {
+		// Run this scene .
 		submit();
 	})
 	
+	// Set some script to run when a key is pressed
+	// Get the 'id="query"' element, and make it respond to the 'keydown' cue
 	$("#query").keydown(function(event) {
 		if (event.originalEvent.key === "Enter") {
 			event.preventDefault();
