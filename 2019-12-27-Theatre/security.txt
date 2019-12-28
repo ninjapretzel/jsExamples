@@ -1,0 +1,11 @@
+
+
+User Mode (Ring 3)
+System Mode(Ring 0)
+
+Hypervisor (Ring -1) // Allows multiple OS to run simultaniously
+
+
+
+
+System Management Mode (SMM) (Ring -2)
