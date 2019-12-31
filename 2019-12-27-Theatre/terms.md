@@ -49,7 +49,21 @@
 
 ### Cue 
 - Events that occur that cause other things to begin
-
+- In a play, events might be:
+	- an actor saying a certain line to cue another actor to begin their part
+	- an actor moving to a certain spot (animation)
+	- in melodrama, a scene may change slightly if the audience boos or cheers during it
+		- Eg, the hero saving the villan if the audience cheers during his final plea, or killing him if they boo
+	- when the blue lights are on, have the stage hand play ocean wave sound effects
+	 
+- In a computer, Events may be:
+	- user-input (clicking a button or hitting keys (like I am now))
+	- a task completes, and fires off some other code
+		- when uploading a video to youtube completes, the page changes to add publishing options
+		- when playing an animation on an element, code can be hooked up to fire when the animation completes
+	- a timer that fires after a delay, repeatedly (like every second, or many times a second)
+	- Other events such as power outages or hardware being unplugged can cause the OS to write logs
+	
 
 
 ```js
