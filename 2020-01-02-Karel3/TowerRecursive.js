@@ -16,7 +16,7 @@ function takeBeeperTower() {
 	
 }
 step();
-while(isNearBeeper() && !isBlocked()) {
+while(!isBlocked()) {
 	turnLeft();
 	takeBeeperTower();
 	turnLeft();

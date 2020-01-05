@@ -26,9 +26,8 @@ function doubleBeepers() {
 
 }
 
+step();
 while (isNearBeeper()) {
-	
-	step();
-	doubleBeepers();
 
+	doubleBeepers()	step();
 }
