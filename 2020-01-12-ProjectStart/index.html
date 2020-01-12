@@ -5,8 +5,74 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<title>Document</title>
+
+	
+	<!-- Materialize -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+	<!-- jquery -->
+	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+	
+<script>
+
+$(document).ready(function() {
+	refreshName();
+	
+	$("button1").click(function() {
+		refreshName();
+		refreshImage();
+		
+	})
+	
+})
+
+function refreshName() {
+	
+	let payload = {
+		token: "bOv8fGzwmssMgPEq3vsnpA",
+		unique: (new Date()).getTime(),
+		data: {
+			name: "personNickname",
+			email: "internetEmail"
+		}
+	};
+
+	$.ajax({
+		type: "POST",
+		cache: false,
+		url: "https://app.fakejson.com/q",
+		data: payload,
+		success: function(resp) {
+			// Do something with fake data
+			$("#email").text(resp.email);
+			$("#username").text(resp.name);
+		}
+	});
+}
+
+function refreshImage() {
+	$("#image1").attr("src", "https://thispersondoesnotexist.com/image?unique=" + (new Date()).getTime())
+}
+
+</script>
+	
 </head>
-<body>
+<body class="blue lighten-4 center-align">
+	<div class="container row">
+		<div class="col s12 card blue lighten-3">
+			<h1>My First Project!</h1>
+		</div>
+		<div class="col s12 card blue lighten-3">
+			<h2>This personality does not exist</h2> <br />
+			<h3 id="username"></h3> <br />
+			<span id="email"></span> <br />
+			<img id="image1" src="https://thispersondoesnotexist.com/image" width="220" height="220" /> 
+			<br />
+			<button id="button1" class="waves-effect waves-light btn-small">Generate New</button>
+		</div>
+		
+		
+	</div>
 	
 </body>
 </html>
