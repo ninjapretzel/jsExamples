@@ -1,0 +1,14 @@
+{
+	"name": "counter",
+	"version": "1.0.0",
+	"description": "Count clicks",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified \" && exit 0"
+	}, 
+	"author": "nobody",
+	"license": "CC0",
+	"dependencies": {
+		"express": "^4.17.1"
+	}
+}

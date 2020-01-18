@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<head>
+	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+</head>
+<button id='countUp'>Count Up!</button>
+<button id='countDown'>Count Down!</button>
+<div id='display'></div>
+
+<script>
+$(document).ready(() => {
+	$("#countUp").click(()=>{
+		$.post('/count', {dir:"up"}, (data, status)=> {
+			var obj = JSON.parse(data)
+			$("#display").text("" + obj.count)
+			
+		})
+	})
+	$("#countDown").click(()=>{
+		$.post('/count', {dir:"down"}, (data, status)=> {
+			var obj = JSON.parse(data)
+			$("#display").text("" + obj.count)
+			
+		})
+	})
+
+	$.get("/count", (data, status) => {
+		var obj = JSON.parse(data)
+		$("#display").text("" + obj.count)
+	})
+})
+
+</script>
+
