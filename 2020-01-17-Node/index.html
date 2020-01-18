@@ -1,33 +1,47 @@
 <!DOCTYPE html>
-<head>
-	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-</head>
-<button id='countUp'>Count Up!</button>
-<button id='countDown'>Count Down!</button>
-<div id='display'></div>
-
-<script>
+<!-- This file is read by the server, and sent to the client! -->
+<html>
+	<head>
+		<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+	</head>
+	<body>
+		
+		<button id='countUp'>Count Up!</button>
+		<button id='countDown'>Count Down!</button>
+		<div id='display'></div>
+		
+		<script>
+// This javascript runs on the client!
 $(document).ready(() => {
+	// When up clicked... 
 	$("#countUp").click(()=>{
+		// Send a request to the server to increment count... 
 		$.post('/count', {dir:"up"}, (data, status)=> {
+			// When we get the response, show count from server... 
 			var obj = JSON.parse(data)
 			$("#display").text("" + obj.count)
-			
 		})
 	})
+	// When down clicked... 
 	$("#countDown").click(()=>{
+		// Send a request to the server to increment count... 
 		$.post('/count', {dir:"down"}, (data, status)=> {
+			// When we get the response, show count from server... 
 			var obj = JSON.parse(data)
 			$("#display").text("" + obj.count)
-			
 		})
 	})
-
+	
+	// And right now,
+	// Send a request to the server to read the current count
 	$.get("/count", (data, status) => {
+		// When we get the response, show the count from the server..
 		var obj = JSON.parse(data)
 		$("#display").text("" + obj.count)
 	})
 })
+		
+		</script>
+	</body>
 
-</script>
-
+</html>
