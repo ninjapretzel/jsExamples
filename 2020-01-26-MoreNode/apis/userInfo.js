@@ -3,6 +3,9 @@ const mysql = require("mysql2");
 const connection = mysql.createConnection({
 	host: "localhost",
 	user: "root",
+	// This is the password for my development mySQL db
+	// (which is never accessible externally)
+	// You will need to use your own password.
 	password: "D3MvMQlwLS6GLG9dUeg3",
 	port: 3306,
 	database: "animals_db"
