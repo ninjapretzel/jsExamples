@@ -6,7 +6,7 @@ const connection = mysql.createConnection({
 	// This is the password for my development mySQL db
 	// (which is never accessible externally)
 	// You will need to use your own password.
-	password: "D3MvMQlwLS6GLG9dUeg3",
+	password: "password",
 	port: 3306,
 	database: "animals_db"
 });
