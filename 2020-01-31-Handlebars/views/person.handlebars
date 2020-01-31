@@ -1,0 +1,13 @@
+
+{{#if name}}
+	<h1> Info for {{name}} </h1>
+	{{#if has_pet}}
+		They have a pet named {{pet_name}}, who is {{pet_age}} years old.
+	{{else}}
+		They have no pet
+	{{/if}}
+	
+{{else}}
+	That person does not exist
+{{/if}}
+

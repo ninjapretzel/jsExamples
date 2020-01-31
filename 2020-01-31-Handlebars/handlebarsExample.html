@@ -1,0 +1,14 @@
+
+<template name="showPerson">
+{{{#if PERSON EXISTS}}}
+	<h3>Here's the info for {{PERSON.NAME}}: </h3>
+	
+	{{{#if PERSON.HAS_PET}}}
+		They have a pet named {{PERSON.PET_NAME}}, who is {{PERSON.PET_AGE}} years old.
+	{{{#else}}}
+		They have no pet
+	{{{#endif}}}
+{{{#else}}}
+	That person does not exist
+{{{#endif}}}
+</template>

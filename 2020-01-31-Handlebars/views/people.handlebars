@@ -1,0 +1,19 @@
+
+{{#each people}}
+	<div class="col s6 brown darken-2 card small">
+		
+	{{#if name}}
+		<h5> Info for {{name}} </h5>
+		{{#if has_pet}}
+			They have a pet named {{pet_name}}, who is {{pet_age}} years old.
+		{{else}}
+			They have no pet
+		{{/if}}
+		
+	{{else}}
+		That person does not exist
+	{{/if}}
+	
+	</div>
+
+{{/each}}

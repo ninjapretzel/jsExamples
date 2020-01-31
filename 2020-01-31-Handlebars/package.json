@@ -1,0 +1,17 @@
+{
+	"name": "demo",
+	"version": "1.0.0",
+	"description": "Demo",
+	"main": "index.js",
+	"author": {
+		"name": "nobody",
+		"email": "ninjapretzel@gmail.com",
+		"url": "https://ninjapretzel.github.io"
+	},
+	"license": "CC0",
+	"dependencies": {
+		"express": "^4.17.1",
+		"express-handlebars": "^3.1.0",
+		"mysql2": "^2.1.0"
+	}
+}
