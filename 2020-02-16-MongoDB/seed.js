@@ -7,30 +7,34 @@ const request = require("request-promise-native");
 const MongoClient = require('mongodb').MongoClient;
 const dbUrl = 'mongodb://localhost:27017';
 const dbName = 'myproject';
-const collectionName = 'documents';
+const collectionName = 'persons';
 
 async function main() {
 	
-	result = await request({
+	const result = await request({
 		method: 'POST',
-		uri: 'https://app.fakejson.com/q',
+		uri: 'https://app.fakejson.com/q?unique=' + Math.random(),
+		
 		body: {
 			token: '',
 			data: {
-				id: 'personNickname',
+				username: 'personNickname',
 				email: 'internetEmail',
 				lastLogin: {
 					dateTime: 'dateTime|UNIX',
-					ipv4: 'internetIP4'
+					ip: 'internetIP4'
 				},
-				_repeat: 3
+				// _repeat: 10
 			}
 		},
 		json:true,
 	});
+	
 	console.log(result);
 	
-	client = await MongoClient.connect(dbUrl, { useUnifiedTopology: true});
+	const client = await MongoClient.connect(dbUrl, { 
+		useUnifiedTopology: true
+	});
 		 
 	console.log("Connected successfully to database server");
 		
@@ -43,9 +47,11 @@ async function main() {
 		await collection.insert(result);
 	}
 		
-	console.log("Done inserting");
+	console.log("Done inserting into database");
 	process.exit();
 	
 }
+
+
 
 main();
