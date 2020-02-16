@@ -1,0 +1,3 @@
+{"_id":{"$oid":"5e471876c61ff44430f7684a"},"name":"Bob Ross","has_pet":false}
+{"_id":{"$oid":"5e4718edc61ff44430f7684b"},"name":"Young Jon","has_pet":true,"pet_name":"Fluffernutter","pet_age":{"$numberInt":"6"}}
+{"_id":{"$oid":"5e49a67dc61ff44430f7684c"},"name":"Jumee","isHere":true,"major":"medical"}

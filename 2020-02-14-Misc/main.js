@@ -6,15 +6,52 @@ const app = express()
 app.engine("handlebars", exphbs({defaultLayout: "main"}));
 app.set("view engine", "handlebars");
 
-const mysql = require("mysql2");
-const connection = mysql.createConnection({
-	host: "localhost",
-	user: "root",
-	password: "D3MvMQlwLS6GLG9dUeg3",
-	port: 3306,
-	database: "animals_db"
+const MongoClient = require('mongodb').MongoClient;
+const url = 'mongodb://localhost:27017';
+const dbName = 'myproject';
+const collectionName = 'documents';
+
+MongoClient.connect(url, function(err, client) {
+	if (err) {
+		console.log("There was an error connecting.");	
+		console.log(err);
+		return;	
+	} 
+	console.log("Connected successfully to server");
+	
+	const db = client.db(dbName);
+	const collection = db.collection(collectionName);
+	
+	collection.find({}).toArray(function(err, docs) {
+		console.log("Found the following records");
+		console.log(docs)
+		//callback(docs);
+	});
+	
+	collection.find({name: "brandon gart" }).toArray(function(err, docs) {
+		console.log("Found the following 'People'");
+		console.log(docs)
+		//callback(docs);
+	});
+	
+	collection.find({product: { $exists: true} }).toArray(function(err, docs) {
+		console.log("Found the following 'Products'");
+		console.log(docs)
+		//callback(docs);
+	});	
 });
 
+
+// const mysql = require("mysql2");
+// const connection = mysql.createConnection({
+// 	host: "localhost",
+// 	user: "root",
+// 	password: "D3MvMQlwLS6GLG9dUeg3",
+// 	port: 3306,
+// 	database: "animals_db"
+// });
+
+/*
 connection.connect( function(err) {
 	if (err) { throw err; }
 	console.log(`Successfully Connected! tid=${connection.threadId}`);	
@@ -65,6 +102,7 @@ app.get("/people/search/:name", function(req,res) {
 	});
 		
 });
+//*/
 
 let PORT = process.env.PORT || 8080;
 app.listen(PORT, function() {
