@@ -1,18 +1,26 @@
+// Initial tiny test data set
 let data = [
 	12, 34, 56, 78, 90	
 ]
 
-	
+
+// Fill array with lots of random values
 let arr = [];
 for (let i = 0; i < 10000000; i++) {
+	// This generates an integer between 0 and 100,000,000
 	arr[i] = Math.floor(Math.random() * 100000000);
 }
+// This can take a while, so we want to know when it is done.
 console.log("array built");
+// Once the array is built, we want to sort them.
+// Javascript, by default sorts by the string representation
+// We want to sort by numerical order instead
 arr.sort((a,b) => a - b);
 console.log("array sorted");
 // console.log(arr);
 
-// Should find the item in the array,
+
+// Should find the item in the array, uses a linear search
 // and return the index the item exists at
 // it not found, returns -1
 // On average n/2 lookups to find the item
@@ -25,7 +33,7 @@ function find(array, item) {
 	return -1; // Didn't find it 
 }
 
-// Should find the item in the array,
+// Should find the item in the array, uses a binary search
 // and return the index the item exists at
 // it not found, returns -1
 // on average takes log2(n) lookup
