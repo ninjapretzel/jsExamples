@@ -1,0 +1,76 @@
+
+.right {
+	text-align: right;
+}
+
+
+.alert {
+	padding: .125rem .51rem;
+}
+
+a.navbar-brand {
+	margin:0;	
+}
+
+img.small {
+	max-height: 120px;
+	margin: 5px;
+}
+
+.push-down {
+	margin-top: 10px;
+}
+
+div.card.push-down {
+	padding: 15px;	
+}
+div.card.small {
+	height: 300px;
+	padding: 0;
+}
+div.card.small img {
+	max-height: 300px;
+}
+
+.card-img-overlay {
+	position: relative;
+	text-align: center;
+}
+.card-img-overlay div {
+	background-color: #eeeeff;
+	position: absolute;
+	width:100%;
+	bottom: 20px;
+	left: 0;
+}
+/* 
+hex digits: 0123456789ABCDEF 
+ 0	 0
+ 1	 1
+ 2	 2
+ 3	 3
+ 4	 4
+ 5	 5
+ 6	 6
+ 7	 7
+ 8	 8
+ 9	 9
+ A	10
+ B	11
+ C	12
+ D	13
+ E	14
+ F	15
+10	16
+11	17
+12	18
+... etc
+
+0...255
+EE = 14*16+14*1 = 238
+FF = 15*16+15*1 = 255
+*/
+.blueBG {
+	/* background-color: #add8e6; */
+	background-color: rgb(238, 238, 255);
+}

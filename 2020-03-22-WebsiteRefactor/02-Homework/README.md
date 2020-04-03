@@ -31,6 +31,11 @@ THEN they fall in sequential order
 WHEN I view the title element
 THEN I find a concise, descriptive title
 ```
+- Page uses semantic html elements
+- Page structure is logical
+- Image elements are decorated with alt text
+- Nav bar is in the same sequence as the elements on the page
+- Title element is concise and descriptive
 
 ## Review
 
