@@ -64,6 +64,7 @@ function getPasswordOptions() {
 }
 
 function generatePassword() {
+	debugger;
 	var userInput = getPasswordOptions();
 	if (!userInput) { // ! is inversion
 		// if userInput is invalid, don't try to generate a password
@@ -75,22 +76,58 @@ function generatePassword() {
 	var possibleCharacters = [];
 	
 	if (userInput.numbers) {
-		possibleCharacters = [ ...possibleCharacters, ...numericCh ];
+		// long version:
+		for (let i = 0; i < numericCh.length; i++) {
+			// push version (slightly slower)
+			possibleCharacters.push(numericCh[i]);
+			// direct access version (slightly faster)
+			// possibleCharacters[possibleCharacters.length] = numericCh[i];
+		}
+		// Short version:
+		//possibleCharacters = [ ...possibleCharacters, ...numericCh ];
+		// what the short version is actually doing
+		// let newArr = [] 
+		// for (let i = 0; i < possibleCharacters.length; i++) {
+		// 	newArr[newArr.length] = possibleCharacters[i];
+		// }
+		// for (let i = 0; i < numericCh.length; i++) {
+		// 	newArr[newArr.length] = numericCh[i];
+		// }
+		// possibleCharacters = newArr;
+		
 		guaranteedCharacters.push(randomEl(numericCh));
 	}
 	
 	if (userInput.special) {
-		possibleCharacters = [ ...possibleCharacters, ...specialCh ];
+		for (let i = 0; i < specialCh.length; i++) {
+			// push version (slightly slower)
+			possibleCharacters.push(numericCh[i]);
+			// direct access version (slightly faster)
+			// possibleCharacters[possibleCharacters.length] = specialCh[i];
+		}
+		//possibleCharacters = [ ...possibleCharacters, ...specialCh ];
 		guaranteedCharacters.push(randomEl(specialCh));
 	}
 	
 	if (userInput.uppercase) {
-		possibleCharacters = [ ...possibleCharacters, ...uppercaseCh ];
+		for (let i = 0; i < uppercaseCh.length; i++) {
+			// push version (slightly slower)
+			possibleCharacters.push(numericCh[i]);
+			// direct access version (slightly faster)
+			// possibleCharacters[possibleCharacters.length] = uppercaseCh[i];
+		}
+		//possibleCharacters = [ ...possibleCharacters, ...uppercaseCh ];
 		guaranteedCharacters.push(randomEl(uppercaseCh));
 	}
 	
 	if (userInput.lowercase) {
-		possibleCharacters = [ ...possibleCharacters, ...lowercaseCh ];
+		for (let i = 0; i < lowercaseCh.length; i++) {
+			// push version (slightly slower)
+			possibleCharacters.push(numericCh[i]);
+			// direct access version (slightly faster)
+			// possibleCharacters[possibleCharacters.length] = lowercaseCh[i];
+		}
+		//possibleCharacters = [ ...possibleCharacters, ...lowercaseCh ];
 		guaranteedCharacters.push(randomEl(lowercaseCh));
 	}
 	

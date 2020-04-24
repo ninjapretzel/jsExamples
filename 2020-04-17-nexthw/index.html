@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<!-- Materailize -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+	
+	<link rel="stylesheet" href="style.css">
+</head>
+<body>
+	<div class="row indigo lighten-3">
+		
+		<div class="left">
+			<button class="btn" id="highScore" onclick="toggleHighScores()">High Scores</button>
+			<button class="btn hidden" id="pause" onclick="togglePause()">||</button>
+		</div>
+		<div class="right" id="timer"> </div>
+		
+		<div class="col s12 card blue">
+			<h1> Code Quiz </h1>
+		</div>
+		
+		<div class="col s12 card hidden" id="pauseMessage">
+			<h2> Paused... </h2>
+		</div>
+		
+		<div class="col s12 card blue" id="introQuestions">
+			<p>Welcome please press start to begin the quiz</p>
+		</div>
+		
+		<div class="col s12 card yellow" id="answers"></div>
+		<div class="col s12 card grey" id="rightWrong"></div>
+		
+		<div class="col s12 card blue" id="start">
+			<button class="btn" onclick='startQuiz()'>START</button>
+			<input type="text" id="nameEntry" value="Enter Name Here" />
+		</div>
+		
+		<div class="col s12 card green">
+			<ol class="hidden" id="highScores"> HighScores: </ol>
+		</div>
+		
+</body>
+<script src="./script.js"></script>
+</html>
