@@ -1,4 +1,5 @@
-
+const START_HOUR = 9;
+const NUM_HOURS = 8;
 
 // Dynamically create elements on the page 
 // for the user to edit their schedule with
@@ -16,7 +17,9 @@ function createHourDiv(hour) {
 	// Make a textarea to hold the text entry of the user
 	let entry = $("<textarea>");
 	entry.addClass("col-md-10");
-	entry.attr("id", "entry" + hour);
+	// entry10pm
+	// functionCall(arg1, arg2, arg3, arg4, arg5)
+	entry.attr("id", "entry" + hour); // entry9am
 	div.append(entry);
 	
 	// Make a button the user can click to save that hour's entry.
@@ -40,27 +43,29 @@ function updateHighlights() {
 	
 	// Get the 'hour' of the current time
 	// in military time (0-23)
-	let time = moment().format("H");
+	let currentTime = moment().format("H");
 	// console.log(time);
 	
 	// Loop over all children	
 	for (let i = 0; i < children.length; i++) {
 		// Calculate the hour for the current child 
-		let hr = 9 + i;
+		let hr = START_HOUR + i;
 		
 		// Find that child on the page
 		// eq(n) is jquery's method that selects the nth match
 		let child = children.eq(i); 
+		// let child = hours[i];
 		
 		// Reset it by removing any 
 		// colorization classes that are already on it 
 		child.removeClass("past present future");
+		///child.addClass("past present future");
 		
 		// Compare times to see if it is in past/present/future
 		// and color accordingly.
-		if (hr < time) {
+		if (hr < currentTime) {
 			child.addClass("past");
-		} else if (hr > time) {
+		} else if (hr > currentTime) {
 			child.addClass("future");
 		} else {
 			child.addClass("present");
@@ -72,45 +77,51 @@ function updateHighlights() {
 $(document).ready(function() {
 	
 	// Loop to create 
-	for (let i = 0; i < 9; i++) {
+	for (let i = 0; i < NUM_HOURS+1; i++) {
 		// Turns out this is kinda difficult to do with momentjs...
-		let hr = 9 + i;
+		let hr = START_HOUR + i;
+		// ternary operator is ?:
+		// condition ? valueIfTrue : valueIfFalse
 		let half = (hr >= 12) ? "pm" : "am";
-		if (hr > 12) { hr -= 12; }
+		if (hr > 12) { hr -= 12; } // military to standard time
 		
+		let id = hr + half; // "9am", or "12pm" or "3pm"
 		// Create the div w/ textarea and button for that hour 
-		let id = hr + half;
+		// then add the div to the page
 		$("#hours").append( createHourDiv(id) );
 		
 		// See if we have data stored, and load it if we do
 		if (localStorage[id]) {
+			// val() for user input
+			// text() for text-on-page (also works for <textarea>, but )
 			$("#entry"+id).val(localStorage[id]);
 		}
 	}
 	
 	// Immediately update highlights 
 	updateHighlights();
+	
 	// Repeatedly call updateHighlights
 	// timeout is in milliseconds, 1000ms = 1 second
-	setInterval(updateHighlights, 10000);
+	setInterval(updateHighlights, 1000);
 	
 	// Set current day with momentjs
 	$("#currentDay").text(moment().format("YYYY MMM, ddd Do"))
 	
 	// Callback for clicking save button
-	$(".saveBtn").on("click", function(evt){
+	$(".saveBtn").on("click", function(event){
 		// Get the id of the clicked button
-		let id = evt.currentTarget.id;
+		let id = event.currentTarget.id; // "9am"
+		
 		// Get id of matching text entry
-		let entryId = "entry" + id;
+		let entryId = "entry" + id; // "entry9am"
 		
 		// Find entry and get text from it...
-		let entry = $("#" + entryId);
+		let entry = $("#" + entryId); // "#entry9am"
 		let text = entry.val();
 		
 		// Save text into localStorage.
 		localStorage[id] = text;
-		
 	})
-
+	
 });
