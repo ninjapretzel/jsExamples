@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>An App for Food Lovers</title>
+	<link href='https://fonts.googleapis.com/css?family=Montserrat:700' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" />
+	<link rel="stylesheet" href="style.css" />
+	<script src="https://code.jquery.com/jquery-3.5.0.js" integrity="sha256-r/AaFHrszJtwpe+tHyNi/XCfMxYpbsRg2Uqn0x3s2zc=" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+	<script src="https://use.fontawesome.com/a007169725.js"></script>
+	<script src="https://kit.fontawesome.com/ca74989e44.js" crossorigin="anonymous"></script>
+	<script src="assets/button.js"></script>
+	<script src="script.js"></script>
+	<script>
+		$(document).ready(function () {
+			$("select").formSelect();
+		});
+	</script>
+	
+</head>
+<body>
+	<nav>
+		<div class="nav-wrapper" style="padding-left: 20px;">
+			<a href="#" class="brand-logo"><i class="fas fa-utensils"></i><i class="fas fa-hamburger"></i><i class="fas fa-pizza-slice"></i><i class="far fa-lemon"></i>An App for Food Lovers</a>
+			<ul id="nav-mobile" class="right hide-on-med-and-down">
+				<li><a href="home.html"></i>Home</a></li>
+				<li><a href="restaurants.html"></i>Go to Restaurants</a></li>
+				<li><a href="recipes.html"></i>Recipes</a></li>
+				<li>
+					<a href="https://www.wholefoodsmarket.com/grocery-delivery-and-pickup" target="_blank" >Order Ingredients</a>
+				</li>
+			</ul>
+		</div>
+	</nav>
+	<section>
+		<div class="container">
+			<form>
+				<div class="row">
+					<div class="col s12">
+						<h4>What type of cuisine would you like to make?</h4>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col s12">
+						<select class="input-field browser-default">
+							<option value="" disabled selected>Choose your Cuisine</option>
+							<option value="1">African</option>
+							<option value="2">American</option>
+							<option value="3">British</option>
+							<option value="4">Cajun</option>
+							<option value="5">Caribbean</option>
+							<option value="6">Chinese</option>
+							<option value="7">Eastern European</option>
+							<option value="8">European</option>
+							<option value="9">French</option>
+							<option value="10">German</option>
+							<option value="11">Greek</option>
+							<option value="12">Indian</option>
+							<option value="13">Irish</option>
+							<option value="14">Italian</option>
+							<option value="15">Japanese</option>
+							<option value="16">Jewish</option>
+							<option value="17">Korean</option>
+							<option value="18">Latin American</option>
+							<option value="19">Mediterranean</option>
+							<option value="20">Mexican</option>
+							<option value="21">Middle Eastern</option>
+							<option value="22">Nordic</option>
+							<option value="23">Southern</option>
+							<option value="24">Spanish</option>
+							<option value="25">Thai</option>
+							<option value="26">Vietnamese</option>
+						</select>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col s12">
+						<a href="#" onclick="getRecipies()" class="boton">Get Recipes</a>
+					</div>
+				</div>
+			</form>
+		</div>
+	</section>
+	<!-- <div class="container">
+		searching results show up here
+	</div> -->
+	
+</body>
+</html>

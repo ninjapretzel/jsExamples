@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<body>
+	
+	<script>
+		var obj = { 
+			someData: "Something",
+			stuff: [
+				{ search: "Chinese", selectedFood: "Orange Chicken", id: "f01ce25a-795e-46ea-8676-17e1f2272e57" },
+				{ search: "Italian", selectedFood: "Meaty Lasagna", id: "00755910-bc83-4475-bc60-270f6ff83694" },
+			]
+		}
+		console.log("original:", obj);
+		
+		console.log("stringified:", JSON.stringify(obj));
+		localStorage["searchHistory"] = JSON.stringify(obj);
+		
+		
+		var loaded = localStorage["searchHistory"];
+		var parsed = JSON.parse(loaded);
+		console.log("parsed:", parsed);
+		
+		
+	</script>
+</body>
+</html>
