@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "fs-promise-native": "^2.0.1",
+    "inquirer": "^6.5.0"
+  }
+}

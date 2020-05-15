@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Weather Dashboard</title>
+	<link href='https://fonts.googleapis.com/css?family=Montserrat:700' rel='stylesheet' type='text/css' />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" />
+	<script src="https://code.jquery.com/jquery-3.5.0.js" integrity="sha256-r/AaFHrszJtwpe+tHyNi/XCfMxYpbsRg2Uqn0x3s2zc=" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+	
+	<script src="keys.js"></script>
+	<script src="script.js"></script>
+	
+</head>
+<body>
+	<div>	
+		<div class="row grey darken-3">
+			<div class="col s12 white-text center"><h1>Weather Dashboard</h1></div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col s4 row card">
+			<div class="col s12">
+				<h5>Search for a City:</h5>
+				<input type="text" id="citySearch">
+			</div>
+			<div class="col s12 row card" id="cityList">
+				
+			</div>
+		</div>
+		<div class="col s8">
+			<div class="row card">
+				<div class="col s12">
+					<h3 id="dailyForecast">Daily Forecast</h3> 
+					<img id="dailyIcon" />
+				</div>
+				<div class="col s6"> Temp: <span id="temp"></span></div>
+				<div class="col s6"> Humidity: <span id="humidity"></span></div>
+				<div class="col s6"> Wind: <span id="wind"></span></div>
+				<div class="col s6"> UV Index: <span id="uvIndex"></span></div>
+				
+				<div class="col s12 row card" id="fiveDay"></div>
+			</div>
+		</div>
+	</div>
+	
+	
+	
+</body>
+</html>
