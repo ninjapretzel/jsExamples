@@ -1,6 +1,23 @@
 const inquirer = require('inquirer');
 const fs = require('fs-promise-native');
 
+const badges = {
+	"MIT": "[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)", 
+	"APACHE 2.0": "[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)", 
+	"GPL 3.0": "[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)", 
+	"BSD 3": "[![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)", 
+	"NONE": "",
+};
+
+const licenseTags = {
+	"MIT": "This project is licensed under the MIT license",
+	"APACHE 2.0": "This project is licensed under the Apache - 2.0 license",
+	"GPL 3.0": "This project is licensed under the GNU GPL v3 license",
+	"BSD 3": "This project is licensed under the BSD 3-Clause license",
+	"NONE": "This project is not licensed.",
+};
+
+
 /// Need to wrap code in an async function in order to use 'await'
 async function main() {
 	// inquirer.prompt returns a `Promise<>`
@@ -63,6 +80,7 @@ async function main() {
 	
 	
 	let text = `# ${data.projectName}
+${badges[data.licence]}
 
 ## Description
 
@@ -96,7 +114,7 @@ ${data.infoUse}
 
 ## License
 
-
+${licenseTags[data.licence]}
 
 ## Contributing
 
