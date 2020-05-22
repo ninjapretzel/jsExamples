@@ -25,6 +25,11 @@ async function main() {
 		},
 		{
 			type: "input",
+			name: "projectName",
+			message: "What is the project name?",
+		},
+		{
+			type: "input",
 			name: "desc",
 			message: "What is the project description?",
 		},
