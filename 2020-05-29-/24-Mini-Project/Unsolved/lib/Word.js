@@ -7,6 +7,10 @@ class Word {
 		})
 	}
 	
+	toString() {
+		return this.letters.map(it => it.toString()).join(" ")
+	}
+	
 	guessLetter(char) {
 		let foundLetter = false
 		this.letters.forEach(letter => {
@@ -14,7 +18,6 @@ class Word {
 				foundLetter = true
 			}
 		});
-		// console.log("/n" + this + "/n") 
 		return foundLetter
 	}
 	
@@ -26,6 +29,8 @@ class Word {
 		// No more hidden letters, then it is guessed correctly.
 		return hiddenLetters.length == 0;
 	}
+	
+	
 }
 
 module.exports = Word

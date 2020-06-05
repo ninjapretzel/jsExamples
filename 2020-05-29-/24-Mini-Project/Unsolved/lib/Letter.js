@@ -30,8 +30,3 @@ class Letter {
 	
 }
 module.exports = Letter;
-
-// var myLetter = new Letter("m")
-// console.log(myLetter.guess("l"))
-// console.log(myLetter.guess("m"))
-// console.log(myLetter.toString())
