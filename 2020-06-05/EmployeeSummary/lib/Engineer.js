@@ -2,10 +2,16 @@
 
 const Employee = require("./Employee")
 
+// Engineer is a new type, inherits all things from Employee.
 class Engineer extends Employee {
+	// Provide new constructor with 4 parameters
 	constructor (name, id, email, github){
+		// Call the super/parent class constructor 
 		super(name, id, email);
+		
+		console.log(this);
 		this.github = github;
+		console.log(this);
 	}
 	getGithub() {
 		return this.github;
@@ -15,4 +21,5 @@ class Engineer extends Employee {
 	}// Overridden to return 'Engineer'
 }
 
+console.log(new Engineer("Bob", "123", "bob@bob.bob", "bobberton"));
 module.exports = Engineer

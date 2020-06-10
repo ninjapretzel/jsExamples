@@ -1,78 +1,76 @@
-const Manager = require("./lib/Manager");
-const Engineer = require("./lib/Engineer");
-const Intern = require("./lib/Intern");
+// Libraries required
 const inquirer = require("inquirer");
 const path = require("path");
 const fs = require("fs-promise-native");
 
-const OUTPUT_DIR = path.resolve(__dirname, "output");
-const outputPath = path.join(OUTPUT_DIR, "team.html");
-
+// Local files required
 const render = require("./lib/htmlRenderer");
+const commonPrompt = require("./data/commonPrompt");
+const additionalPrompt = require("./data/additionalPrompt");
 
-const commonPrompt = [
-	{
-		type:"input",
-		name:"name",
-		message:"What is the employee's name?",
-	},
-	{
-		type:"input",
-		name:"id",
-		message:"What is the employee's ID?",
-	},
-	{
-		type:"input",
-		name:"email",
-		message:"What is the employee's email address?",
-	},
-];
+// Primary constants - ALL_CAPS_PLUS_UNDERSCORES implies DO NOT CHANGE.
+const OUTPUT_DIR = path.resolve(__dirname, "output");
+const OUTPUT_PATH = path.join(OUTPUT_DIR, "team.html");
+const MODULE_DIR = path.resolve(__dirname, "lib");
+const MODULES = [ "Engineer", "Intern", "Manager" ];
 
-const additionalPrompt = {
-	Engineer: [
-		{
-			type:"input",
-			name:"github",
-			message:"What is the employee's github username?",
-		},
-	],
-	Intern: [
-		{
-			type:"input",
-			name:"school",
-			message:"What is the employee's sponsor school?",
-		},
-	],
-	Manager: [
-		{
-			type:"input",
-			name:"officeNumber",
-			message:"What is the employee's office?",
-		},
-	],
-};
+// Dynamic constants - normal variable names imply contained objects/arrays are mutable.
+// the field is still `const` since it should not be reassigned
+const constuctors = { };	// { TypeName: TypeName.constructor }
+const choices = [ ];		// [ TypeName ]
+// Loop over MODULES constant defined above
+for (let i in MODULES) {
+	// Pull out module name 
+	const module = MODULES[i];
+	// Add it as a choice
+	choices[choices.length] = module;
+	// Dynamically import that module
+	constuctors[module] = require(path.join(MODULE_DIR, module));
+}
+// Add a choice for "Done"
+choices[choices.length] = "Done";
 
-const constuctors = { Engineer, Intern, Manager }
 /** Creates an instance with a constructor and the given argument array. */
 function createInstance(constructor, argArray) {
-	const args = [null, ...argArray]
+	// Args to call bind with...
+	const args = [ null, ...argArray ]
+	// all functions have a `.bind` function that 
+	// returns a new version of the function with the 'this' changed...
+	// and all functions (including `.bind`!) have an apply method that invokes the method,
+	// optionally overriding the 'this', and passing in args as if they were in the parameters list...
+	// eg,  
+	// `Math.max.apply(null, [1,2,3,4,5,6]);`
+	// 		is the same as 
+	// `Math.max(1,2,3,4,5,6);`
+	// This invokes the constructors' bind on itself (which doesn't change it), but does prepare 
 	const factory = constructor.bind.apply(constructor, args);
+	// Then, we invoke the created factory to instantiate the object with the given type...
 	return new factory();
+	// whew, we avoided having a lot of `if...elseif...elseif...elseif`!
 }
-
+/** Creates an employee of a given kind, prompting the user for any needed information. */
 async function createEmployee(kind) {
+	// Construct prompt array out of the prompts common to all employees,
+	// appended with the additional prompts for that kind of employee...
+	// the `...` operator copies all of the elements from the thing to its right,
+	// so, given `a = [ 1, 2, 3 ]; b = [ 4, 5, 6 ];`:
+	// c = [ ...a, ...b ]
+	// is 
+	// [ 1, 2, 3, 4, 5, 6 ];
 	const prompt = [ ...commonPrompt, ...additionalPrompt[kind] ];
+	// Pass the prompts off to inquirer and let it do all the stuff 
 	const data = await inquirer.prompt(prompt);
-	
+	// Find the constructor for the thing
 	const constructor = constuctors[kind];
+	// Fill an args array with all information from user
 	const args = [];
 	for (let key in data) {
 		args[args.length] = data[key];
 	}
-	
+	// Pass off to `createInstance()` to dynamically invoke the constructor.
 	return createInstance(constructor, args);
 	
-	// Long version, we don't want this, hard to maintain
+	// Long version, we don't want this, it's hard to maintain and painful to look at:
 	// if (kind === "Engineer") {
 	// 	return new Engineer(data.name, data.id, data.email, data.github);
 	// } else if (kind === "Intern") {
@@ -83,61 +81,40 @@ async function createEmployee(kind) {
 	// } else if (...) {
 	// 	return new .....;	
 	// }
-	
 }
 
+// Main is async cause we want to make use of modern javascript keyword, `await`
 async function main() {
+	// Collect employees made by user in an array
 	const employees = [];
+	// Loop until user chooses to stop (using break)
 	while (true) {
+		// Ask user what kind of employee to make
 		let data = await inquirer.prompt([
 			{
 				type: "list",
 				message: "What kind of employee do you want to create?",
 				name: "kind",
-				choices: [ "Engineer", "Intern", "Manager", "Done" ],
+				choices, // Dynamic choices as made available above...
 			}
 		]);
 		
-		// End loop if user did not select an employee type
+		// End loop if user did not select an employee type, we're done
 		if (data.kind === "Done") { 
-			break;	
+			break;
 		}
 		
+		// Otherwise wait for user to enter data for that employee
 		employees[employees.length] = await createEmployee(data.kind);
 	}
 	
+	// Pass employees off to html renderer
 	const html = (render(employees));
 	// Ensure output directory exists
-	try { await fs.mkdir("./output"); } catch (err) {}
+	try { await fs.mkdir(OUTPUT_DIR); } catch (err) {}
 	
 	// Then write file
-	await fs.writeFile("./output/team.html", html);
-	
-	
-	
-	
+	await fs.writeFile(OUTPUT_PATH, html);
 }
+// Invoke main 
 main();
-
-// Write code to use inquirer to gather information about the development team members,
-// and to create objects for each team member (using the correct classes as blueprints!)
-
-// After the user has input all employees desired, call the `render` function (required
-// above) and pass in an array containing all employee objects; the `render` function will
-// generate and return a block of HTML including templated divs for each employee!
-
-// After you have your html, you're now ready to create an HTML file using the HTML
-// returned from the `render` function. Now write it to a file named `team.html` in the
-// `output` folder. You can use the variable `outputPath` above target this location.
-// Hint: you may need to check if the `output` folder exists and create it if it
-// does not.
-
-// HINT: each employee type (manager, engineer, or intern) has slightly different
-// information; write your code to ask different questions via inquirer depending on
-// employee type.
-
-// HINT: make sure to build out your classes first! Remember that your Manager, Engineer,
-// and Intern classes should all extend from a class named Employee; see the directions
-// for further information. Be sure to test out each class and verify it generates an
-// object with the correct structure and methods. This structure will be crucial in order
-// for the provided `render` function to work! ```
