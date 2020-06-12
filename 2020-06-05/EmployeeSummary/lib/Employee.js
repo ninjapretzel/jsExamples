@@ -1,12 +1,9 @@
 class Employee {
 	constructor(name, id, email) {
-		console.log(this);
 		this.name = name;
-		console.log(this);
 		this.id = id;
-		console.log(this);
 		this.email = email;
-		console.log(this);
+		this.role = this.getRole();
 	}
 	getName() {
 		return this.name;

@@ -48,6 +48,7 @@ function createInstance(constructor, argArray) {
 	return new factory();
 	// whew, we avoided having a lot of `if...elseif...elseif...elseif`!
 }
+
 /** Creates an employee of a given kind, prompting the user for any needed information. */
 async function createEmployee(kind) {
 	// Construct prompt array out of the prompts common to all employees,
