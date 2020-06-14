@@ -5,8 +5,28 @@ const express = require("express");
 const router = express.Router();
 
 const notes = require("../db/db.json");
+if (!isArray(notes)) {
+	console.log("Error! notes should be an array, please check 'db/db.json!'");
+	process.exit(1); // Exit before running rest of program,
+	// this will prevent the program from starting up, 
+	// which is sometimes the proper way to handle such errors
+}
+
 console.log(`loaded ${notes.length} notes`);
 
+// typeof({}) === object, but also
+// typeof([]) === object-  but it's an array!
+// Javascript arrays are technically objects!
+// (they have `Array` as their prototype!)
+// so we need to go a step further,
+// and make sure that the thing is actually
+// not an array using the `Array.isArray` method
+function isObject(it) {
+	return typeof(it) === "object" && (!Array.isArray(it));
+}
+function isArray(it) {
+	return typeof(it) === "object" && (Array.isArray(it));
+}
 
 router.get("/notes", function(request, response) {
 	response.send(notes);
@@ -23,7 +43,7 @@ router.post("/notes", function(request, response) {
 	// interface { title: string, text: string }
 	
 	// Make sure both are present and not empty
-	if (data.title && data.text 
+	if (isObject(data) && data.title && data.text 
 			&& typeof(data.title) === "string"
 			&& typeof(data.text) === "string") {
 		// We don't want to accidentally save
@@ -43,15 +63,43 @@ router.post("/notes", function(request, response) {
 		// we're already 'up a folder',
 		//		so we need to use current directory (.) 
 		//		instead of parent directory (..)
-		fs.writeFileSync("./db/db.json", JSON.stringify(notes));
+		try {
+			fs.writeFileSync("./db/db.json", JSON.stringify(notes));
+		} catch (err) {
+			console.log("Could not save db.json:");
+			console.log(err);
+			response.statusCode = 500;
+			response.send("Error writing file, could not save note!");
+			return;
+		}
+		response.send("Success!");
+	} else {
+		response.statusCode = 400;
+		response.send("Error, bad data, could not save note!");	
 	}
 	
-	response.send("Success!");
 });
 
 router.delete("/notes/:id", function(request, response) {
+	const id = request.params.id;
 	
-	
+	for (let i = 0; i < notes.length; i++) {
+		if (id === notes[i].id) {
+			notes.splice(i, 1); // Remove 1 element starting at index i
+			try {
+				fs.writeFileSync("./db/db.json", JSON.stringify(notes));
+			} catch (err) {
+				console.log("Could not save db.json:");
+				console.log(err);
+				response.statusCode = 500;
+				response.send("Error writing file, could not delete note!");
+				return;
+			}
+			response.send("Success!");
+			return;
+		}
+	}
+	response.send("No note with matching id!");
 });
 
 router.get("/*", function(request, response) {
