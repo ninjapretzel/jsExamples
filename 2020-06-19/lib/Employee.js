@@ -14,6 +14,14 @@ class Employee {
 		this.manager_id = manager_id;
 	}
 	
+	static from(data) {
+		return new Employee(data.id || -1, 
+				data.first_name || "Bob",
+				data.last_name || "Saget",
+				data.role_id || -1,
+				data.manager_id || -1);
+	}
+	
 }
 
 module.exports = Employee;

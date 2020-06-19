@@ -8,6 +8,10 @@ class Department {
 		this.name = name;	
 	}
 	
+	static from(data) {
+		return new Department(data.id || -1, data.name || "blank");
+	}
+	
 }
 
 module.exports = Department;
