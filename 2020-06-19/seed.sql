@@ -1,11 +1,29 @@
+# delete all data in employee_db and remove the db
 DROP DATABASE IF EXISTS employee_db;
+# create employee_db database
+# for example, like "create a file called employee_db.xls"
 CREATE DATABASE employee_db;
+# mark `employee_db` as the default database
+# for example, like "open the file called employee_db.xls"
+# "and do the following"
 USE employee_db;
 
+# Create a new sheet in the current file, named department
 CREATE TABLE department (
+	# name the columns as follows, 
+    # type them as follows, 
+    # and anytime we add data, apply these restrictions:
 	id int NOT NULL AUTO_INCREMENT,
 	name varchar(30) NOT NULL,
+    # Then, after all the columns are laid out, 
+    # do these things:
 	PRIMARY KEY (id)
+    # ^ says many things:
+    # - We will use this "id" column to identify our employees.
+    # - No duplicate ids, if we try to store two entries
+    # 		with the same id, stop us!
+    # - Also, pre-allocate and keep this column sorted!
+	# 		for fast lookups
 );
 
 CREATE TABLE role (
@@ -23,7 +41,8 @@ CREATE TABLE employee (
 	last_name varchar(30) NOT NULL,
 	role_id int NOT NULL,
 	manager_id int,
-	PRIMARY KEY (id),
+	PRIMARY KEY (id), 
+    
 	FOREIGN KEY (role_id) REFERENCES role(id),
 	FOREIGN KEY (manager_id) REFERENCES employee(id)
 );
