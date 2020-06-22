@@ -11,18 +11,18 @@ USE employee_db;
 # Create a new sheet in the current file, named department
 CREATE TABLE department (
 	# name the columns as follows, 
-    # type them as follows, 
-    # and anytime we add data, apply these restrictions:
+	# type them as follows, 
+	# and anytime we add data, apply these restrictions:
 	id int NOT NULL AUTO_INCREMENT,
 	name varchar(30) NOT NULL,
-    # Then, after all the columns are laid out, 
-    # do these things:
+	# Then, after all the columns are laid out, 
+	# do these things:
 	PRIMARY KEY (id)
-    # ^ says many things:
-    # - We will use this "id" column to identify our employees.
-    # - No duplicate ids, if we try to store two entries
-    # 		with the same id, stop us!
-    # - Also, pre-allocate and keep this column sorted!
+	# ^ says many things:
+	# - We will use this "id" column to identify our employees.
+	# - No duplicate ids, if we try to store two entries
+	# 		with the same id, stop us!
+	# - Also, pre-allocate and keep this column sorted!
 	# 		for fast lookups
 );
 
@@ -42,7 +42,7 @@ CREATE TABLE employee (
 	role_id int NOT NULL,
 	manager_id int,
 	PRIMARY KEY (id), 
-    
+	
 	FOREIGN KEY (role_id) REFERENCES role(id),
 	FOREIGN KEY (manager_id) REFERENCES employee(id)
 );
