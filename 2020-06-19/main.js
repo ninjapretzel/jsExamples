@@ -3,16 +3,24 @@ const Employee = require("./lib/Employee");
 const Department = require("./lib/Department");
 const Role = require("./lib/Role");
 const inquirer = require("inquirer");
-const { right } = require("inquirer/lib/utils/readline");
-const { connect } = require("mysql2");
 
 // little in-memory-database
 // stores a snapshot of the SQL database
 const departments = {};
+const departmentsByName = {};
 const employees = {};
+const employeesByName = {};
+const employeesCountByName = {};
 const roles = {};
+const rolesByTitle = {};
 // Connection to sql server
 let connection = null;
+
+function clear() {
+	for (let obj in arguments) {
+		for (let key in obj) { delete obj[key]; }
+	}
+}
 
 async function refreshDatabase() {
 	// This `connection.execute` function returns an array
@@ -23,19 +31,37 @@ async function refreshDatabase() {
 	const [departmentData] = await connection.execute("SELECT * FROM department;");
 	const [roleData] = await connection.execute("SELECT * FROM role;");
 	
+	clear(departments, departmentsByName, employees, employeesByName, roles, rolesByTitle);
+	
 	employeeData.map( (it) => {
 		const employee = Employee.from(it);
 		employees[employee.id] = employee;
+		
+		// Let our program be able to tell the difference between 
+		// two people with the same name 
+		const fullName = employee.fullName();
+		let displayName = fullName;
+		if (employeesCountByName[fullName]) {
+			employeesCountByName[fullName] += 1;
+			displayName += ` (${employeesCountByName[fullName]})`;
+		} else {
+			employeesCountByName[fullName] = 1;
+		}
+		
+		employee.displayName = displayName;
+		employeesByName[displayName] = employee.id;
 	});
 	
 	departmentData.map( (it) => {
 		const department = Department.from(it);
 		departments[department.id] = department;
+		departmentsByName[department.name] = department.id;
 	});
 	
 	roleData.map( (it) => {
 		const role = Role.from(it);
 		roles[role.id] = role;
+		rolesByTitle[role.title] = role.id;
 	});
 	
 	
@@ -125,7 +151,7 @@ function formatEmployeeData() {
 		const role = roles[emp.role_id];
 		const dpt = departments[role.department_id];
 		const manager = employees[emp.manager_id];
-		const managerName = manager ? manager.fullName() : "null";
+		const managerName = manager ? manager.displayName : "null";
 		// 				0			1			2
 		const row = [ emp.id, emp.first_name, emp.last_name, 
 		//	3			4			5			6
@@ -177,7 +203,6 @@ const choiceFunctions = {
 	}, 
 	"View All Employees": async function() {
 		printTable(employeeTableHeaders, formatEmployeeData() );
-		
 	},
 	"View All Employees By Department": async function() {
 		const table = formatEmployeeData();
@@ -203,6 +228,12 @@ const choiceFunctions = {
 				name: "name"
 			}
 		]);
+		
+		if (departmentsByName[data.name]) {
+			console.log("Sorry, a department already exists with that name.");
+			return;	
+		}
+		
 		const query = "INSERT INTO `department` (`name`) VALUES (?)";
 		const params = [ data.name ];
 		try {
@@ -211,6 +242,7 @@ const choiceFunctions = {
 			data.id = id;
 			let dep = Department.from(data);
 			departments[id] = dep;
+			departmentsByName[dep.name] = id;
 			
 			console.log("Success!");
 			console.log(result);
@@ -219,7 +251,123 @@ const choiceFunctions = {
 			console.log("SQL error occurred:");
 			console.log(err);
 		}
-	}
+	},
+	"Add Role": async function() {
+		
+		let data = await inquirer.prompt([
+			{
+				type:"input",
+				message: "What will the role's title be?",
+				name: "title"
+			}, 
+			{
+				type:"number",
+				message: "What is the role's annual salary?",
+				name:"salary",	
+			},
+			{
+				type:"list",
+				message: "What department is the role associated with?",
+				name:"department",
+				choices: Object.keys(departmentsByName)
+			}
+		]);
+		// Reverse lookup ID of department associated with this new role
+		data.department_id = departmentsByName[data.department];
+		
+		// We want to have an actual number for salary.
+		if (isNaN(data.salary) || data.salary < 0) {
+			console.log("Sorry, salary must be a positive number.");
+			return;
+		}
+		
+		if (rolesByTitle[data.title]) {
+			console.log("Sorry, that title is already taken.");
+			return;
+		}
+		
+		const query = "INSERT INTO `role` (`title`, `salary`, `department_id`) VALUES (?, ?, ?)";
+		const params = [ data.title, data.salary, data.department_id ];
+		try {
+			let [result] = await connection.execute(query, params);
+			let id = result.insertId;
+			data.id = id;
+			let role = Role.from(data);
+			roles[id] = role;
+			rolesByTitle[role.title] = id;
+			
+			console.log("Success!");
+			console.log(result);
+			
+		} catch (err) {
+			console.log("SQL error occurred:");
+			console.log(err);
+		}
+				
+	},
+	"Add Employee": async function() {
+		const NO_MANAGER = "--- ---Nobody--- ---";
+		
+		let data = await inquirer.prompt([
+			{
+				type:"input",
+				message: "What is the employee's first name?",
+				name: "first_name"
+			},
+			{
+				type:"input",
+				message: "What is the employee's last name?",
+				name: "last_name"
+			},
+			{
+				type:"list",
+				message:"What is this employee's role?",
+				name: "role",
+				choices: Object.keys(rolesByTitle)
+			},
+			{
+				type:"list",
+				message:"Who is this employee's manager?",
+				name: "manager",
+				choices: [ NO_MANAGER, ...Object.keys(employeesByName) ] 	
+			}
+		]);
+		data.role_id = rolesByTitle[data.role];
+		data.manager_id = (data.manager === NO_MANAGER) ? null : employeesByName[data.manager];
+		
+		const query = "INSERT INTO `employee` (`first_name`, `last_name`, `role_id`, `manager_id`) VALUES (?, ?, ?, ?)";
+		const params = [ data.first_name, data.last_name, data.role_id, data.manager_id ];
+		
+		try {
+			let [result] = await connection.execute(query, params);
+			let id = result.insertId;
+			data.id = id;
+			
+			let employee = Employee.from(data);
+			employees[id] = employee;
+			
+			const fullName = employee.fullName();
+			let displayName = fullName;
+			if (employeesCountByName[fullName]) {
+				employeesCountByName[fullName] += 1;
+				displayName += ` (${employeesCountByName[fullName]})`;
+			} else {
+				employeesCountByName[fullName] = 1;
+			}
+			
+			employee.displayName = displayName;
+			employeesByName[displayName] = employee.id;
+			
+			
+			console.log("Success!");
+			console.log(result);
+			
+		} catch (err) {
+			console.log("SQL error occurred:");
+			console.log(err);
+		}
+		
+	},
 		
 };
 
