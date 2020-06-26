@@ -77,7 +77,7 @@ VALUES
 ;
 
 
-# Can't forward reference when creating
+# Can not forward reference when creating
 # so we have to have this after the fact
 UPDATE employee SET manager_id=3 WHERE id=1;
 
