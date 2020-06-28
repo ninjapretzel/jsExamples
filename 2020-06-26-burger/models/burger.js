@@ -8,7 +8,7 @@ module.exports = {
 	insert: async function(burger) {
 		return await orm.insertOne("burger", burger);
 	}, 
-	update: async function(burger) {
-		return await orm.updateOne("burger", burger);	
+	devour: async function(id) {
+		return await orm.updateOne("burger", id, [ "devoured" ], [ true ] );	
 	}
 }
