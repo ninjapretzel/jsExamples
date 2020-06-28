@@ -8,13 +8,13 @@ async function waitForConnection() {
 waitForConnection();
 
 module.exports = {
-	selectAll: async function() {
+	selectAll: async function(table) {
 		
 	},
-	insertOne: async function(data) {
+	insertOne: async function(table, data) {
 		
 	},
-	updateOne: async function(data) {
+	updateOne: async function(table, data) {
 		
 	},
 }
