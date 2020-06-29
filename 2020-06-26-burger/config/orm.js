@@ -9,8 +9,8 @@ waitForConnection();
 
 module.exports = {
 	selectAll: async function(table) {
-		const query = "SELECT * FROM ?";
-		const params = [ table ];
+		const query = `SELECT * FROM \`${table}\``;
+		const params = [ ];
 		
 		try {
 			let [result] = await conn.execute(query, params);
@@ -24,11 +24,17 @@ module.exports = {
 		}
 	},
 	insertOne: async function(table, data) {
-		const query = "INSERT INTO ? (?) VALUES (?)";
-		const fields = Object.keys(data).filter( key => (key !== "id") );
-		const values = fields.map( key => data[key] );
+		const fields = Object.keys(data)
+			.filter( key => (key !== "id") )
+			.map( it => `\`${it}\``)
+			.join(", ");
+		const values = Object.keys(data)
+			.filter( key => (key !== "id") )
+			.map( key => data[key] );
+		const placeholder = Array(values.length).join("?, ") + "?";
 		
-		const params = [ table, fields, values ];
+		const query = `INSERT INTO \`${table}\` (${fields}) VALUES (${placeholder})`;
+		const params = values;
 		
 		try {
 			let [result] = await conn.execute(query, params);
@@ -41,14 +47,14 @@ module.exports = {
 		}
 	},
 	updateOne: async function(table, id, fields, values) {
-		const query = "UPDATE ? SET ? WHERE `id`=?";
 		
 		let sets = "";
 		for (let i = 0; i < fields.length; i++) {
 			sets += ' `' + fields[i] + '`=' + values[i];
 		}
 		
-		const params = [ table, sets, id ];
+		const query = `UPDATE \`${table}\` SET ${sets} WHERE \`id\`=?`;
+		const params = [ id ];
 		
 		try {
 			let [result] = await conn.execute(query, params);
