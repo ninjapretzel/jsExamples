@@ -3,7 +3,17 @@
 	<div class="col s12">burger image goes here</div>
 	<div class="col s12"><h1>Eat-Da-Burger!</h1></div>
 	<div class="col s12 row">
-		placeholder for burgers
+		<div class="col s6 row">
+			{{#each undevoured}}
+				<div class="col s9">{{this.id}}. {{this.name}}</div>
+				<button data="{{this.id}}" class="col s3 btn devour">DEVOUR!</button>
+			{{/each}}
+		</div>
+		<div class="col s6 row">
+			{{#each devoured}}
+				<div class="col s9">{{this.id}}. {{this.name}}</div>
+			{{/each}}
+		</div>
 	</div>
 	
 	<div class="col s3"></div>
