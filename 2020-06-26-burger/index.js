@@ -16,6 +16,8 @@ app.get("/", (request, response) => {
 	response.render('index');
 });
 
+app.use("/public", express.static(__dirname + "/public"));
+
 app.use("/burgers", burgersController);
 
 
