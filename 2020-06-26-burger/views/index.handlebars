@@ -1,32 +1,46 @@
-
 <div class="row center">
-	<div class="col s12">burger image goes here</div>
-	<div class="col s12"><h1>Eat-Da-Burger!</h1></div>
-	<div class="col s12 row">
+	<div class="col s12 card brown darken-1">
+		<img src="/public/assets/img/burger.jpg" height="100px" width="auto" />
+		<img src="/public/assets/img/ribburger.png" height="100px" width="auto" />
+		
+		<h1>Eat-Da-Burger!</h1>
+	</div>
+	
+	<div class="col s12 row card brown darken-1">
+		<div class="col s3"></div>
+		<div class="input-field col s6">
+			<input placeholder="Big Mac" id="burgerName" type="text" class="validate">
+			<label for="burgerName">Burger Name</label>
+		</div>
+		<div class="col s3"></div>
+		
+		<div class="col s4"></div>
+		<button id="makeButton" class="col s4 btn">Make the burger.</button>
+		<div class="col s4"></div>
+		
+		<div class="col s12">Enter the name of the burger you want to eat and hit the button. </button></div>
+	</div>
+	
+	<div class="col s12 row card brown darken-1">
 		<div class="col s6 row">
+			<div class="col s12"><h5>Undevoured Burgers</h5></div>
 			{{#each undevoured}}
-				<div class="col s9">{{this.id}}. {{this.name}}</div>
-				<button data="{{this.id}}" class="col s3 btn devour">DEVOUR!</button>
+				<div class="col s8 card brown darken-2 buttonCard valign-wrapper">
+					{{this.id}}. {{this.name}}
+				</div>
+				<div class="col s1"></div>
+				<button data="{{this.id}}" class="col s3 btn-small devour">DEVOUR!</button>
 			{{/each}}
 		</div>
 		<div class="col s6 row">
+			<div class="col s12"><h5>Devoured Burgers</h5></div>
 			{{#each devoured}}
-				<div class="col s9">{{this.id}}. {{this.name}}</div>
+				<div class="col s2"></div>
+				<div class="col s9 card brown darken-2 buttonCard valign-wrapper">{{this.id}}. {{this.name}}</div>
 			{{/each}}
 		</div>
 	</div>
 	
-	<div class="col s3"></div>
-	<div class="input-field col s6">
-		<input placeholder="Big Mac" id="burgerName" type="text" class="validate">
-		<label for="burgerName">Burger Name</label>
-	</div>
-	<div class="col s3"></div>
 	
-	<div class="col s4"></div>
-	<button id="makeButton" class="col s4 btn">Make the burger.</button>
-	<div class="col s4"></div>
-	
-	<div class="col s12">Enter the name of the burger you want to eat and hit the button. </button></div>
 	
 </div>
