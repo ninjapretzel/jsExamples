@@ -1,6 +1,7 @@
 const express = require("express");
 const session = require("express-session");
 const handlebars = require("express-handlebars");
+const db = require("./models");
 
 const app = express();
 const PORT = 3000;
@@ -16,8 +17,12 @@ app.get("/", async (request, response) => {
 	response.render('index', { timestamp: new Date() });
 });
 
+
+
 async function main() {
-	// await db.sequelize.sync();
+	await db.sequelize.authenticate();
+	await db.sequelize.sync();
+	
 	
 	app.listen(PORT, function() {
 		console.log(`Listening on ${PORT}. http://localhost:${PORT}`);
