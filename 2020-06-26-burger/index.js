@@ -15,7 +15,6 @@ app.set("view engine", "handlebars");
 
 app.get("/", async (request, response) => {
 	const burgers = await burgerModel.getAll();
-	console.log(burgers);
 	const devoured = burgers.filter(it => it.devoured);
 	const undevoured = burgers.filter(it => !it.devoured);
 	response.render('index', { burgers, devoured, undevoured } );
