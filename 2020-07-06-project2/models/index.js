@@ -2,7 +2,7 @@ const { Sequelize, DataTypes } = require('sequelize');
 const fs = require('fs');
 
 const db =  {};
-db.sequelize = new Sequelize("testDatabase", "root", "", {
+db.sequelize = new Sequelize("dev", "root", "", {
 	host: 'localhost',
 	dialect: "mysql",
 	port: 3306,
