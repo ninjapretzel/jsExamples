@@ -13,7 +13,7 @@ passport.use(new LocalStrategy(
 		// if (User does not exist OR incorrect password )
 		if (!dbUser || !dbUser.validPassword(password)) {
 			// Tell the user they failed to login.
-			return done(null, false, { message: "Incorrect user or password." });
+			return done(null, false, { message: "Incorrect username or password." });
 		}
 		// If none of the above, return the user
 		return done(null, dbUser);
