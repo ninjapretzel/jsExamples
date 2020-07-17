@@ -143,13 +143,14 @@ function kelvinToF(k) {
 
 /// Helper to construct HTML for a city in the #cityList element.
 function makeCity(cityName) {
-	const div = $("<div class='col s12'>");
+	const div = $('<div class="col s12">');
 	const name = $("<h5 class='city'>");
 	name.text(cityName);
 	div.append(name);
 	
-	return div;	
+	return div;
 }
+
 /// Helper to construct HTML for a day's forecast in the #fiveDay element.
 function makeDayCard(day) {
 	const div = $("<div class= 'col s2 card'>")
@@ -199,7 +200,7 @@ function cityClicked(event) {
 function updateCityList() {
 	// Clear existing cities (search might not match the same cities)
 	$("#cityList").empty();
-	// Get text entered by user, conver to lower case
+	// Get text entered by user, convert to lower case
 	const match = $("#citySearch").val().toLowerCase();
 	
 	// Loop over all city names (keys) in our object
@@ -211,7 +212,7 @@ function updateCityList() {
 			// do not include cities that do not contain the user's search
 			// (only include cities that contain the user's search)
 			if (!cityName.toLowerCase().includes(match)) { 
-				addIt = false;	
+				addIt = false;
 			}
 		}
 		
@@ -227,7 +228,7 @@ function updateCityList() {
 	// After all cities are added,
 	// bind a click callback to them 
 	$(".city").click(cityClicked);
-		
+	
 }
 
 /// Reaches out to the weather API to request information for a specific
