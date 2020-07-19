@@ -30,12 +30,23 @@ MongoClient.connect(url, { useUnifiedTopology: true }, async function(err, clien
 	] );
 	console.log(result);
 	
+	const everything = await collection.find({}).toArray();
+	const programmers = await collection.find({occupation:"Programmer"}).toArray();
+	
+	console.log("everything:", everything);
+	console.log("programmers:", programmers);
+	
+	
 	for (let thing of result.ops) {
 		if (Math.random() < .5) {
 			console.log(`Deleting ${thing._id}`);
 			await collection.deleteOne({ _id: thing._id});
 		} else {
-			
+			// In SQL, would look somthing like this:
+			// UPDATE collection SET occupation="Clerk" WHERE `_id`=? 
+			console.log(`Setting ${thing._id}'s occupation to "Clerk"`);
+			await collection.updateOne({_id: thing._id},
+				{ $set: {occupation: "Clerk" } });
 		}
 	}
 		
