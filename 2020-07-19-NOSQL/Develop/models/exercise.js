@@ -12,9 +12,20 @@ const Exercise  = new Schema({
 });
 
 // Instance Methods: 
-Exercise.methods.yeet = async function() { }
+Exercise.methods.fmt = function() { 
+	return `Exercise.\nName: ${this.name}\nType: ${this.type}`
+	+ (this.duration ? `\nDuration: ${this.duration}` : ``)
+	+ (this.weight ? `\nWeight: ${this.weight}lbs` : ``)
+	+ (this.reps && this.sets ? `\nReps: ${this.reps} x ${this.sets} sets` : ``)
+}
+
 // Static Methods: 
-Exercise.statics.owo = async function() {} 
+Exercise.statics.findByName = async function(name) {
+	return await this.find({name});
+}
+Exercise.statics.findByType = async function(type) {
+	return await this.find({type});
+} 
 
 
 module.exports = Exercise;
