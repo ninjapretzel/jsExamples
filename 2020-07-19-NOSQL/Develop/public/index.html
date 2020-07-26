@@ -8,12 +8,15 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css" />
   <link rel="stylesheet" href="style.css" />
   <title>Fitness Tracker</title>
+  <script src="/api.js"></script>
+  <script src="/workout.js"></script>
+  <script src="/index.js"></script>
 </head>
 
 <body>
   <nav>
-    <a href="/">Fitness Tracker</a>
-    <a href="/stats">Dashboard</a>
+    <a href="/index.html">Fitness Tracker</a>
+    <a href="/stats.html">Dashboard</a>
   </nav>
   <div class="wrapper workout">
     <header>
@@ -26,8 +29,8 @@
           <div>
             <div class="workout-stats"></div>
             <div class="buttons">
-              <a id="continue-btn" href="/exercise?" class="huge ui blue button">Continue Workout</a>
-              <a href="/exercise" class="huge positive ui button">New Workout</a>
+              <a id="continue-btn" href="/exercise.html?" class="huge ui blue button">Continue Workout</a>
+              <a href="/exercise.html" class="huge positive ui button">New Workout</a>
             </div>
           </div>
         </div>
@@ -41,9 +44,6 @@
   <div id="toast">
     Workout Added Successfully!
   </div>
-  <script src="/api.js"></script>
-  <script src="/workout.js"></script>
-  <script src="/index.js"></script>
 </body>
 
 </html>
