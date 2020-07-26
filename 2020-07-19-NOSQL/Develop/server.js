@@ -1,24 +1,20 @@
-
+const express = require("express");
+const PORT = process.env.PORT || 3000;
 
 const db = require("./models");
 
+const app = express();
+app.use(express.urlencoded( { extended: true } ));
+app.use(express.json());
+app.use(express.static("public"));
+
+const workoutApi = require("./routes/workout-api");
+app.use('/', workoutApi);
+
 async function main() {
-	console.log(await db.exercise.find({}));
-	console.log(await db.workout.find({}));
-	console.log(await db.exercise.findByName("Bench Press"));
-	console.log(await db.exercise.findByType("cardio"));
-	
-	
-	let exercises = (await db.exercise.find({}))
-		.map(it => new db.exercise(it) );
-	console.log( exercises.map(it => it.fmt() ));
-	
-	let workouts = (await db.workout.find({}).populate('exercises'))
-		.map(it => new db.workout(it) )
-	
-	console.log(workouts);
-	console.log(workouts[0].exercises);
-	
+	app.listen(PORT, function() {
+		console.log(`App listening. http://localhost:${PORT}`);
+	})
 	
 }
 main();
