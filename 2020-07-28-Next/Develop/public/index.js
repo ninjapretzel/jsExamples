@@ -1,5 +1,58 @@
 let transactions = [];
+let unposted = [];
 let myChart;
+
+if (localStorage.unposted) {
+	unposted = JSON.parse(localStorage.unposted);
+}
+
+function saveRecord(record) {
+	unposted[unposted.length] = record;
+	localStorage.unposted = JSON.stringify(unposted);
+}
+
+/** Promise wrapper to run code after a delay */
+function wait(ms) {
+	return new Promise((resolve, reject) => { setTimeout( ()=>{resolve(); }, ms); });
+}
+/** directly async version of 'wait' */
+async function pause(ms) { await wait(ms); }
+
+async function retryFailedTransactions() {
+	while (true) {
+		try {
+			if (unposted.length > 0) {
+				const response = await fetch("/api/transaction", {
+					method: "POST",
+					body: JSON.stringify(unposted[0]),
+					headers: {
+						Accept: "application/json, text/plain, */*",
+						"Content-Type": "application/json"
+					}
+				})
+				const data = await response.json();
+				
+				if (!data.errors) {
+					// Remove first element from unposted array
+					unposted.shift();
+					// Update unposted
+					localStorage.unposted = JSON.stringify(unposted);
+					console.log("successfully sent transaction");
+				}
+			} else {
+				console.log("No Failed Transactions to send, waiting a minute");
+				// no unposted transactions, wait a minute
+				await pause(60000);
+			}
+		} catch (err) {
+			console.log(err);
+			console.log("Failed to resend transaction, waiting 5 seconds.");
+			await pause(5000);
+		}
+		
+	}
+}
+retryFailedTransactions();
 
 fetch("/api/transaction")
 	.then(response => {
@@ -7,7 +60,9 @@ fetch("/api/transaction")
 	})
 	.then(data => {
 		// save db data on global variable
-		transactions = data;
+		unposted.reverse();
+		transactions = [ ...unposted, ...data ];
+		unposted.reverse();
 
 		populateTotal();
 		populateTable();
@@ -78,7 +133,7 @@ function populateChart() {
 	});
 }
 
-function sendTransaction(isAdding) {
+async function sendTransaction(isAdding) {
 	let nameEl = document.querySelector("#t-name");
 	let amountEl = document.querySelector("#t-amount");
 	let errorEl = document.querySelector(".form .error");
@@ -120,21 +175,17 @@ function sendTransaction(isAdding) {
 			Accept: "application/json, text/plain, */*",
 			"Content-Type": "application/json"
 		}
-	})
-	.then(response => {		
+	}).then(response => {		
 		return response.json();
-	})
-	.then(data => {
+	}).then(data => {
 		if (data.errors) {
-			errorEl.textContent = "Missing Information";
-		}
-		else {
+			errorEl.textContent = "Server Error.";
+		} else {
 			// clear form
 			nameEl.value = "";
 			amountEl.value = "";
 		}
-	})
-	.catch(err => {
+	}).catch(err => {
 		// fetch failed, so save in indexed db
 		saveRecord(transaction);
 
