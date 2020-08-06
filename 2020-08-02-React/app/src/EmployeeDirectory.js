@@ -5,11 +5,16 @@ class EmployeeDirectory extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			search: "",
 			error: null,
 			isLoaded: false,
 			items: []
 		};
+		this.onSearchChange = (event) => {
+			this.setState({search: event.target.value});
+		}
 	}
+	
 	
 	async componentDidMount() {
 		try {
@@ -51,7 +56,7 @@ class EmployeeDirectory extends React.Component {
 		
 		return <div className="row">
 			<div className="col s12 center">
-				<input id="searchField"></input>
+				<input id="searchField" onChange={this.onSearchChange}></input>
 			</div>
 			{/* <div className="col s12 white-text"><h5>spacer</h5></div> */}
 			
@@ -63,7 +68,9 @@ class EmployeeDirectory extends React.Component {
 			
 			<div className="col s12 white-text"><h5>spacer</h5></div>
 			
-			{items.map(item => (
+			{items
+				.filter(it => (this.state.search === "" || it.name.toLowerCase().includes(this.state.search.toLowerCase())))
+				.map(item => (
 				<EmployeeLine picture={item.picture}
 								name={item.name}
 								cell={item.cell}
