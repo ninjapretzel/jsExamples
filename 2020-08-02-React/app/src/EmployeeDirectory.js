@@ -13,12 +13,23 @@ class EmployeeDirectory extends React.Component {
 		this.onSearchChange = (event) => {
 			this.setState({search: event.target.value});
 		}
+		this.employeeMatchesSearch = (employee) => {
+			let search = this.state.search.toLowerCase();
+			
+			return search === "" 
+				|| (employee.name.toLowerCase().includes(search))
+				|| (employee.email.toLowerCase().includes(search))
+				|| (employee.dob.toLowerCase().includes(search))
+				|| (employee.cell.toLowerCase().includes(search));
+			
+		}
+		
 	}
 	
 	
 	async componentDidMount() {
 		try {
-			let res = await fetch("https://randomuser.me/api/?results=50")
+			let res = await fetch("https://randomuser.me/api/?results=50&nat=us")
 			let result = await res.json();
 			let employees = result.results.map(it => {
 				return {
@@ -69,7 +80,7 @@ class EmployeeDirectory extends React.Component {
 			<div className="col s12 white-text"><h5>spacer</h5></div>
 			
 			{items
-				.filter(it => (this.state.search === "" || it.name.toLowerCase().includes(this.state.search.toLowerCase())))
+				.filter(this.employeeMatchesSearch)
 				.map(item => (
 				<EmployeeLine picture={item.picture}
 								name={item.name}
