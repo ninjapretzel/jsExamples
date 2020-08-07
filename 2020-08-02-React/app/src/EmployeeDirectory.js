@@ -66,23 +66,32 @@ class EmployeeDirectory extends React.Component {
 		}
 		
 		return <div className="row">
-			<div className="col s12 center">
-				<input id="searchField" onChange={this.onSearchChange}></input>
+			<div className="col s4 white white-text">.</div>
+			<div className="input-field col s4 center">
+				<input id="searchField" onChange={this.onSearchChange} type="text" className="validate"></input>
+				
+				<label for="searchField">Search:</label>
 			</div>
-			{/* <div className="col s12 white-text"><h5>spacer</h5></div> */}
+			<div className="col s4 white white-text">.</div>
 			
-			<div className="col s1">Image</div>
-			<div className="col s3">Name</div>
-			<div className="col s2">Phone</div>
-			<div className="col s4">Email</div>
-			<div className="col s2">DOB</div>
+			<div className="card col s12 row tight strong">
+				<div className="col s12 white white-text">.</div>
+				
+				<div className="col s1">Image</div>
+				<div className="col s3">Name</div>
+				<div className="col s2">Phone</div>
+				<div className="col s4">Email</div>
+				<div className="col s2">DOB</div>
+				
+				<div className="col s12 white white-text">.</div>
+			</div>
 			
-			<div className="col s12 white-text"><h5>spacer</h5></div>
 			
 			{items
 				.filter(this.employeeMatchesSearch)
-				.map(item => (
-				<EmployeeLine picture={item.picture}
+				.map( (item, index) => (
+				<EmployeeLine index={index}
+								picture={item.picture}
 								name={item.name}
 								cell={item.cell}
 								email={item.email}
