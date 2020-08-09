@@ -6,13 +6,13 @@ class EmployeeDirectory extends React.Component {
 		super(props);
 		this.state = {
 			search: "",
+			sort: "",
+			sortAsc: false,
 			error: null,
 			isLoaded: false,
 			items: []
 		};
-		this.onSearchChange = (event) => {
-			this.setState({search: event.target.value});
-		}
+		
 		this.employeeMatchesSearch = (employee) => {
 			let search = this.state.search.toLowerCase();
 			
@@ -55,6 +55,9 @@ class EmployeeDirectory extends React.Component {
 		}
 	}
 	
+	handleSearch = (event) => {
+		this.setState({search: event.target.value});
+	}
 	
 	render() {
 		const { error, isLoaded, items } = this.state;
@@ -68,7 +71,7 @@ class EmployeeDirectory extends React.Component {
 		return <div className="row">
 			<div className="col s4 white white-text">.</div>
 			<div className="input-field col s4 center">
-				<input id="searchField" onChange={this.onSearchChange} type="text" className="validate"></input>
+				<input id="searchField" onChange={this.handleSearch} type="text" className="validate"></input>
 				
 				<label for="searchField">Search:</label>
 			</div>
