@@ -4,7 +4,10 @@
 	
 }
 
-
 .strong {
 	font-weight: bolder;
+}
+
+.fakeLink {
+	color: #039be5;
 }
