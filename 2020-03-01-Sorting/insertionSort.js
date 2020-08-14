@@ -5,10 +5,11 @@ let data = [
 
 // Fill another array with lots of random values
 let arr = [];
-for (let i = 0; i < 10000; i++) {
+for (let i = 0; i < 100; i++) {
 // This generates an integer between 0 and 100,000,000
 	arr[i] = Math.floor(Math.random() * 10000);
 }
+
 
 function insertionSort(array) {
 	debugger;
@@ -39,7 +40,7 @@ function insertionSort(array) {
 			swaps++;
 			array[k+1] = element;	
 		}
-		console.log(array);
+		//console.log(array);
 	}
 	return { swaps, compares };
 }
@@ -53,11 +54,11 @@ console.log(data);
 console.log(`Result:`);
 console.log(result);
 
-// console.log(`Before Sorting: `);
-// console.log(arr);
-// result = insertionSort(arr);
-// console.log(`After Sorting: `);
-// console.log(arr);
+console.log(`Before Sorting: `);
+console.log(arr);
+result = insertionSort(arr);
+console.log(`After Sorting: `);
+console.log(arr);
 
-// console.log(`Result:`);
-// console.log(result);
+console.log(`Result:`);
+console.log(result);

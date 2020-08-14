@@ -54,6 +54,7 @@ function render() {
 // Digit will be the number to add as a string, for example, "0", through "9"
 // Used when the user clicks one of the 0123456789 buttons
 function addDigit(digit) {
+	debugger;
 	if (calc.justCalcd) {
 		// If the user just hit equals, instead, override the value with what they punched in.
 		calc.value = Number(digit);

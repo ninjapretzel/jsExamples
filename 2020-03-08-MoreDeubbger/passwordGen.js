@@ -74,6 +74,7 @@ function brandonPassword() {
 	return password;
 }
 
+
 // add stuff to happen when the button is clicked 
 $("#generate").click(function(){
 	
