@@ -1,4 +1,5 @@
 import React from 'react';
+import Nav from './Nav'
 
 class Header extends React.Component {
 	constructor(props) {
@@ -7,7 +8,11 @@ class Header extends React.Component {
 	}
 	
 	render() {
-		return <div></div>	
+		return <div>
+			<h1> Brandon's Portfolio </h1>
+			<br />
+			<Nav />
+		</div>	
 	}
 	
 }

@@ -1,4 +1,5 @@
 import React from 'react';
+import Nav from "./Nav"
 
 class Footer extends React.Component {
 	constructor(props) {
@@ -7,7 +8,13 @@ class Footer extends React.Component {
 	}
 	
 	render() {
-		return <div></div>	
+		const now = new Date().getFullYear();
+		
+		return <div>
+			<Nav />
+			<br />
+			Copyright {now}
+		</div>
 	}
 	
 }

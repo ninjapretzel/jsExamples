@@ -2,6 +2,9 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 
+import Header from "./components/Header"
+import Footer from "./components/Footer"
+
 import FourOhFour from "./pages/FourOhFour";
 import Home from "./pages/Home";
 
@@ -14,10 +17,12 @@ class App extends React.Component {
 		return (
 			<Router>
 				<div>
+					<Header />
 					<Switch>
 						<Route exact path="/" component={Home} />
 						<Route component={FourOhFour} />
 					</Switch>
+					<Footer />
 				</div>
 			</Router>
 		);
