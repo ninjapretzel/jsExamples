@@ -1,4 +1,5 @@
 import React from 'react';
+import Project from '../components/Project';
 
 class Portfolio extends React.Component {
 	constructor(props) {
@@ -34,9 +35,11 @@ class Portfolio extends React.Component {
 			<h2>Portfolio</h2>
 			<h3>Github: <a href="https://github.com/bgartdu">bgartdu</a></h3>
 			
-			{this.state.projects.map(item => (
-				<div>{item.name}</div>
-			))}
+			<div className="row">
+				{this.state.projects.map(item => (
+					<Project data={item} />
+				))}
+			</div>
 			
 		</div>	
 	}
