@@ -14,21 +14,26 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 class App extends React.Component {
 	
-	
 	render() {
 		return (
-			<Router>
-				<div>
-					<Header />
-					<Switch>
-						<Route exact path="/" component={Home} />
-						<Route exact path="/portfolio" component={Portfolio} />
-						<Route exact path="/contact" component={Contact} />
-						<Route component={FourOhFour} />
-					</Switch>
+			<div className="container">
+				<Router>
+					<div className="row">
+						<div className="col s12">
+							<Header />
+						</div>
+						<div className="col s12">
+							<Switch>
+								<Route exact path="/" component={Home} />
+								<Route exact path="/portfolio" component={Portfolio} />
+								<Route exact path="/contact" component={Contact} />
+								<Route component={FourOhFour} />
+							</Switch>
+						</div>
+					</div>
 					<Footer />
-				</div>
-			</Router>
+				</Router>
+			</div>
 		);
 	}
 }
