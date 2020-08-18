@@ -8,7 +8,7 @@ class Header extends React.Component {
 	}
 	
 	render() {
-		return <div className="row card-panel">
+		return <div className="row card-panel blue darken-4">
 			<div className="col s8">
 				<h1> Brandon's Portfolio </h1>
 			</div>

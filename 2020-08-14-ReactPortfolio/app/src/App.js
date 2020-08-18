@@ -22,7 +22,7 @@ class App extends React.Component {
 						<div className="col s12">
 							<Header />
 						</div>
-						<div className="col s12">
+						<div className="col s12 card blue darken-4">
 							<Switch>
 								<Route exact path="/" component={Home} />
 								<Route exact path="/portfolio" component={Portfolio} />
@@ -30,8 +30,10 @@ class App extends React.Component {
 								<Route component={FourOhFour} />
 							</Switch>
 						</div>
+						<div className="col s12">
+							<Footer />
+						</div>
 					</div>
-					<Footer />
 				</Router>
 			</div>
 		);
