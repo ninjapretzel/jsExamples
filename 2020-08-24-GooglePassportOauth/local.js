@@ -1,11 +1,11 @@
-const express = require('express')
-const bodyParser = require('body-parser')
-const app = express()
-
+/////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////
+// db.js:
 const mongoose = require("mongoose");
 const Schema = require("mongoose").Schema;
 
-mongoose.connect(`mongodb://localhost:27017/Oof`, {
+mongoose.connect(`mongodb://localhost:27017/localAuthExample`, {
 	useNewUrlParser: true,
 	useUnifiedTopology: true
 });
@@ -15,12 +15,17 @@ const UserSchema = new Schema( {
 	hash: { type: String } 
 });
 const User = mongoose.model("User", UserSchema);
+// Would export generated models:
+//module.exports = { User };
 
-
+/////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////
+// passportConfig.js:
+// const { User } = require('./db'); // Uncomment once separated
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const argon2 = require('argon2');
-const LOGIN_FAILED = "Invalid username or password";
 passport.use(new LocalStrategy(async function(username, password, done) {
 	
 	let user = await User.findOne({ username });
@@ -41,7 +46,7 @@ passport.use(new LocalStrategy(async function(username, password, done) {
 	// if (user.hash !== hash(password)) 
 	if (!await(argon2.verify(user.hash, password))) {
 		console.log(`password mismatch.`, user);
-		return done(null, false, { message: LOGIN_FAILED });
+		return done(null, false, { message: "Invalid username or password" });
 		
 	}
 	
@@ -59,10 +64,21 @@ passport.deserializeUser(async function(username, done) {
 	if (user) { return done(null, { username: user.username} ); }
 	else { return done("User not found!", null); }
 });
+// Would export the configured passport:
+// module.exports = passport;
 
+/////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////
+// server.js:
+const express = require('express')
+const bodyParser = require('body-parser')
 const session = require("express-session");
 const cookieParser = require("cookie-parser");
+// const passport = require('./passportConfig'); // uncomment when separated
+const app = express()
 
+// Hook up application middleware
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cookieParser());
@@ -75,7 +91,7 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-// app.get('/login', async function(req, res) { res.send("hi"); });
+// Simple static login page
 app.get('/', function(req, res) {
 	res.send(`<form action="/login" method="post">
     <div>
@@ -92,32 +108,32 @@ app.get('/', function(req, res) {
 </form>`);
 });
 
+// POST route for user login
 app.post('/login',
-	passport.authenticate('local', { 
-		successRedirect: '/loginSuccess', 
-		failureRedirect: '/loginFailed', 
+	passport.authenticate('local', { // Let passport use our strategy to authenticate
+		successRedirect: '/loginSuccess', // On success, hit this route
+		failureRedirect: '/loginFailed', // On failure, hit this route
 	}),
-	async function(req, res) {
-		console.log("hi");
-		res.redirect("/loginSuccess");
-	}
-								
 );
 
-app.get('/loginSuccess', async function(req, res) {
-	console.log("hi");
-
-	res.send(`<h1> success! you are logged in as ${req.user.username}!</h1>`);
-});
-app.get('/loginFailed',
-	passport.authenticate('local'),
+// Route shown once the user logs in
+app.get('/loginSuccess',
 	async function(req, res) {
-		console.log("hi");
-		res.send(`<h1> Oops, you are not logged in </h1>`);
-
+		if (req.user) { // Check that the user is logged in
+			res.send(`<h1> success! you are logged in as ${req.user.username}!</h1>`);
+		} else {
+			res.send(`<h2> you are not logged in, cheater!</h2>`);
+		}
 });
 
+// Route shown once the user fails to login
+app.get('/loginFailed',
+	async function(req, res) {
+		// Page can be viewed without a login
+		res.send(`<h1> Oops, you are not logged in </h1>`);
+	}
+);
 
-
+// Finally, start the app
 const port = 3000
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
