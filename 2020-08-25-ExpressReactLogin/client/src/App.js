@@ -2,25 +2,64 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+
+import Global from './Global.js';
+
+import Header from "./components/Header"
+import Footer from "./components/Footer"
+
+import FourOhFour from "./pages/FourOhFour";
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+
+class App extends React.Component {
+	
+	
+	constructor() {
+		super();
+		this.state = {
+			username: null,
+			token: null,
+		}
+		
+	}
+	
+	async componentDidMount() {
+		if (localStorage["userLogin"]) {
+			const userLogin = JSON.parse(localStorage["userLogin"]);
+			const {username, token} = userLogin;
+			
+			// TODO: Verify token is still valid
+			this.setState({username, token});
+		}
+	}
+	
+	render() {
+		return (
+			<Global.Provider value={this.state}>
+				<div className="App">
+					<Router>
+						<div className="row">
+							<div className="col s12">
+								<Header />
+							</div>
+							<div className="col s12">
+								<Switch>
+									<Route exact path="/" component={Home} />
+									<Route exact path="/login" component={Login} />
+									<Route component={FourOhFour} />
+								</Switch>
+							</div>
+							<div className="col s12">
+								<Footer />
+							</div>
+						</div>
+					</Router>
+				</div>
+			</Global.Provider>
+		);
+	}
 }
 
 export default App;
