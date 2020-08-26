@@ -9,7 +9,14 @@ class Header extends React.Component {
 	// }
 	
 	render() {
-		return <div></div>
+		return <div className="row">
+			<div className="col s8"><h2>Login Example</h2></div>
+			<div className="col s4 ">
+				{ 
+					this.context.username ? this.context.username : <a href="/login"> go to login </a>
+				}
+			</div>
+		</div>
 	}	
 }
 
