@@ -13,14 +13,18 @@ import FourOhFour from "./pages/FourOhFour";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 
+
 class App extends React.Component {
-	
-	
 	constructor() {
 		super();
 		this.state = {
 			username: null,
 			token: null,
+			onLogin: (creds) => {
+				localStorage["userLogin"] = JSON.stringify(creds);
+				this.setState(creds);
+				window.location = "/"
+			}
 		}
 		
 	}
@@ -32,6 +36,7 @@ class App extends React.Component {
 			
 			// TODO: Verify token is still valid
 			this.setState({username, token});
+			
 		}
 	}
 	
