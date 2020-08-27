@@ -12,6 +12,7 @@ import Footer from "./components/Footer"
 import FourOhFour from "./pages/FourOhFour";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
+import ControlPanel from './pages/ControlPanel';
 
 
 class App extends React.Component {
@@ -53,6 +54,7 @@ class App extends React.Component {
 								<Switch>
 									<Route exact path="/" component={Home} />
 									<Route exact path="/login" component={Login} />
+									<Route exact path="/controlPanel" component={ControlPanel} />
 									<Route component={FourOhFour} />
 								</Switch>
 							</div>
