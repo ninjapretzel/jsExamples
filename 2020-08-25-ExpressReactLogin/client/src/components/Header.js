@@ -9,11 +9,17 @@ class Header extends React.Component {
 	// }
 	
 	render() {
-		return <div className="row">
-			<div className="col s8"><h2>Login Example</h2></div>
-			<div className="col s4 ">
+		return <div className="row card valign-wrapper">
+			<div className="col s8"><h5>Login Example</h5></div>
+			<div className="col s4 card">
 				{ 
-					this.context.username ? this.context.username : <a href="/login"> go to login </a>
+					this.context.username ? [
+						`Currently logged in as ${this.context.username}.`,
+						<br />,
+						<a href="/controlPanel">Control Panel</a>
+					] : [
+						<a href="/login"> go to login </a>
+					]
 				}
 			</div>
 		</div>
