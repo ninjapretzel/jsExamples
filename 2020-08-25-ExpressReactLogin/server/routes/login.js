@@ -34,7 +34,8 @@ router.post("/changePassword", async function(req, res) {
 		return;
 	}
 	
-	const check = await db.User.findOne( { id } );
+	const check = await db.User.findOne( { _id: id } );
+	console.log(check);
 	if (!check) {
 		res.json({
 			success: false,

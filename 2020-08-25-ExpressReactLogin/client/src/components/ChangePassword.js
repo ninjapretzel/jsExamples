@@ -32,12 +32,12 @@ class ChangePassword extends React.Component {
 			oldPassword, newPassword, confirmPassword, token
 		});
 		
-		const { success, message, err } = result;
+		const { success, message, err } = result.data;
 		
 		if (success) {
 			window.M.toast({ html: "Password changed successfully!", classes: "green" });
 		} else {
-			window.M.toast({ html: "Password change failed: " + message + " err: " + err, classes: "red" });
+			window.M.toast({ html: "Password change failed: " + message, classes: "red" });
 		}
 	}
 	
