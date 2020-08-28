@@ -16,7 +16,8 @@ class Header extends React.Component {
 					this.context.username ? [
 						`Currently logged in as ${this.context.username}.`,
 						<br />,
-						<a href="/controlPanel">Control Panel</a>
+						<a href="/controlPanel">Control Panel</a>, "|",
+						<a href="#" onClick={this.context.logout}>Logout</a>
 					] : [
 						<a href="/login"> go to login </a>
 					]

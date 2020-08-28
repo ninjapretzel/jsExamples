@@ -13,6 +13,7 @@ import FourOhFour from "./pages/FourOhFour";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import ControlPanel from './pages/ControlPanel';
+import NewUser from './pages/NewUser';
 
 
 class App extends React.Component {
@@ -25,7 +26,13 @@ class App extends React.Component {
 				localStorage["userLogin"] = JSON.stringify(creds);
 				this.setState(creds);
 				window.location = "/"
+			},
+			logout: () => {
+				localStorage["userLogin"] = "";
+				this.setState({ username: null, token: null });
+				window.location = "/"
 			}
+			
 		}
 		
 	}
@@ -55,6 +62,7 @@ class App extends React.Component {
 									<Route exact path="/" component={Home} />
 									<Route exact path="/login" component={Login} />
 									<Route exact path="/controlPanel" component={ControlPanel} />
+									<Route exact path="/newUser" component={NewUser} />
 									<Route component={FourOhFour} />
 								</Switch>
 							</div>
