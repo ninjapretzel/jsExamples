@@ -1,19 +1,10 @@
 const express = require("express");
-const argon2 = require("argon2");
-const jwt = require("jsonwebtoken");
 const db = require("../db");
 
 const router = express.Router();
 
-// TODO: Get this value from configuration
-const SECRET = "thisIsNotAGoodSecret,ChangeMePlease"; 
-
 function makeToken(user) {
-	const token = jwt.sign(
-		{ id: user.id, username: user.username },
-		SECRET,
-		{ expiresIn: 60 * 60 } // 1 hour
-	);
+	const token = { id: user.id, username: user.username, created: new Date().getTime() };
 	return token;
 }
 
@@ -30,17 +21,17 @@ router.post("/changePassword", async function(req, res) {
 	
 	let id = null;
 	let username = null;
-	try {
-		const unpacked = jwt.verify(token, SECRET);
-		id = unpacked.id;
-		username = unpacked.username;
-	} catch (err) {
+	
+	const unpacked = token
+	id = unpacked.id;
+	username = unpacked.username;
+	
+	const now = new Date().getTime();
+	if (now - unpacked.created > (1000 * 60 * 60)) {
 		res.json({
 			success: false,
-			message: "failed to unpack token",
-			err,
+			message: "Session expired"
 		});
-		return;
 	}
 	
 	const check = await db.User.findOne( { _id: id } );
@@ -53,8 +44,7 @@ router.post("/changePassword", async function(req, res) {
 		return;
 	}
 	
-	const hash = check.hash;
-	if (!await argon2.verify(hash, oldPassword)) {
+	if (check.password !== oldPassword) {
 		res.json({
 			success: false,
 			message: "Old password does not match current password"
@@ -70,7 +60,7 @@ router.post("/changePassword", async function(req, res) {
 		return;
 	}
 	
-	check.hash = await argon2.hash(newPassword);
+	check.password = newPassword;
 	
 	try {
 		await check.save();
@@ -108,7 +98,7 @@ router.post("/login", async function(req, res) {
 		return;
 	}
 	
-	if (!await argon2.verify(check.hash, password)) {
+	if (check.password !== password) {
 		res.json({ 
 			success: false,
 			message: "Bad username or password" 
@@ -139,11 +129,10 @@ router.post("/newUser", async function(req,res) {
 		return;
 	}
 	if (!check) {
-		const hash = await argon2.hash(password)
-
+	
 		const user = await db.User.create({
-			username: username,
-			hash,
+			username,
+			password,
 			role: "User",
 		})
 		

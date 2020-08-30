@@ -2,7 +2,7 @@ const Schema = require("mongoose").Schema;
 
 const UserSchema = new Schema( { 
 	username: { type: String },
-	hash: { type: String },
+	password: { type: String },
 	role: { type: String, enum: [ "User", "Employee", "Admin" ] },
 });
 
