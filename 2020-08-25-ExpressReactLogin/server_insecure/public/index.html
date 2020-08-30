@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Document</title>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+		<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script>
+var token;
+
+////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////
+// Example to use login system outside of react        //
+////////////////////////////////////////////////////////
+
+function refreshLoginInfo() {
+	console.log("Token is " + localStorage["token"]);
+	
+	if (localStorage["token"]) {
+		// User is already logged in:
+		token = JSON.parse(localStorage["token"]);
+		
+		$("#greeting").text("Hello, " + token.username);
+		$("#logoutBtn").show();
+		$("#login").hide();
+		$("#content").show();
+	} else {
+		// User is not logged in
+		$("#greeting").text("You are not logged in.");
+		$("#logoutBtn").hide();
+		$("#login").show();
+		$("#content").hide();
+	}
+	
+}
+
+function onLoginOrSignup(data, status, req)  {
+	const { success, token, message } = data;
+	if (success) {
+		localStorage["token"] = JSON.stringify(token);
+		refreshLoginInfo();
+	} else {
+		$("#message").text(message);
+	}
+}
+
+function onPasswordChange(data, status, req) {
+	const { success, message } = data;
+	if (success) {
+		M.toast({ html: "Password changed!", classes: "green"});
+	} else {
+		M.toast({ html: "Password change failed: " + message, classes: "red"});
+	}
+}
+		
+$(document).ready(()=>{
+	refreshLoginInfo();
+	
+	$("#logoutBtn").click((event)=>{
+		event.preventDefault();
+		localStorage["token"] = "";
+		token = null;
+		refreshLoginInfo();
+	});
+	
+	$("#signUpBtn").click((event)=>{
+		event.preventDefault();
+		const username = $("#username").val();
+		const password = $("#password").val();
+		
+		$.post("/newUser", {username, password}, onLoginOrSignup);
+	});
+	
+	$("#loginBtn").click((event)=>{
+		event.preventDefault();
+		const username = $("#username").val();
+		const password = $("#password").val();
+		
+		$.post("/login", {username, password}, onLoginOrSignup);
+	});
+	
+	$("#changePasswordBtn").click((event)=>{
+		event.preventDefault();
+		
+		const oldPassword = $("#oldPassword").val();
+		const newPassword = $("#newPassword").val();
+		const confirmPassword = $("#confirmPassword").val();
+		
+		const payload = { 
+			oldPassword,
+			newPassword,
+			confirmPassword,
+			token
+		}
+		
+		$.ajax("/changePassword", { 
+			data: JSON.stringify(payload),
+			contentType: 'application/json',
+			type: "POST",
+		}).done(onPasswordChange);
+		
+	});
+	
+});
+</script>
+		
+	</head>
+	<body>
+		<div class="row container">
+			<div class="col s8 card">
+				<h2>Site</h2>
+			</div>
+			<div class="col s4 card">
+				Controls:
+				<span id="greeting"></span>
+				<br/> <a id="logoutBtn" href="#" class="btn">Logout</a>
+			</div>
+			<div id="login" class="card col s12 row">
+				<h2>Login</h2>
+				<div class="col s12 input-field">
+					<input id="username" type="text" class="validate">
+					<label for="username">Username</label>
+				</div>
+				
+				<div class="col s12 input-field">
+					<input id="password" type="text" class="validate">
+					<label for="password">Password</label>
+				</div>
+				
+				<a id="loginBtn" href="#" class="btn">Login</a>
+				<a id="signUpBtn" href="#" class="btn">Sign Up!</a>
+				<span class="col s12 red-text" id="message"></span>
+			</div>
+			
+			<div id="content" class="card col s12 row">
+				Secret content
+				
+				<h4> change password: </h4>
+				<div class="col s12 input-field">
+					<input id="oldPassword" type="text" class="validate">
+					<label for="oldpassword">Old Password</label>
+				</div>
+				
+				<div class="col s12 input-field">
+					<input id="newPassword" type="text" class="validate">
+					<label for="newPassword">New Password</label>
+				</div>
+				
+				<div class="col s12 input-field">
+					<input id="confirmPassword" type="text" class="validate">
+					<label for="confirmPassword">Confirm Password</label>
+				</div>
+				<a id="changePasswordBtn" href="#" class="btn">Change password!</a>
+				
+			</div>
+		</div>
+	</body>
+</html>

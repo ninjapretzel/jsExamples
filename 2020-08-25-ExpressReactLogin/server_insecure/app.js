@@ -7,6 +7,7 @@ const corsConfig = {
 }
 
 const app = express();
+app.use(express.static("public"));
 app.use(cors(corsConfig));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
