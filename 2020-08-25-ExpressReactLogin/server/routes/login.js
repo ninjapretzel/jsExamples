@@ -92,7 +92,7 @@ router.post("/login", async function(req, res) {
 	const { username, password } = req.body;
 	
 	if (!username || !password) { 
-		res.json({ 
+		res.json({
 			success: false,
 			message: "Need to provide username and password" 
 		});
@@ -121,7 +121,7 @@ router.post("/login", async function(req, res) {
 	res.json({ success: true, token });
 });
 
-router.post("/newuser", async function(req,res){
+router.post("/newUser", async function(req,res) {
 	const { username, password } = req.body;
 	if (!username || !password) {
 		res.json ({
