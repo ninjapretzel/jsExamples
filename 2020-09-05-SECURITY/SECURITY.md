@@ -1,7 +1,8 @@
 # Security! 
 ## The code diff between a secure system and an insecure one may not be that much at all.  
 ## See [THIS DIFF](https://github.com/ninjapretzel/jsExamples/commit/be2735f9ae4a2f5d304e4f0067a893524fa17050) as an example.
-Note how few lines changed: `+17, -30` out of 3 files with around 200 lines total.
+Note how few lines changed: `+17, -30` out of `3 files` with `~200 lines` total between them.  
+Most of the changes are just removed imports or minor structural changes.  
 
 You always benefit from attempting to have a secure system,  
 and there is little detriment other than not understanding the highly refined encryption the security relies on.
