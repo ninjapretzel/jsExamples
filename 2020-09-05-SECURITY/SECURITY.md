@@ -1,4 +1,10 @@
 # Security! 
+## The code diff between a secure system and an insecure one may not be that much at all.  
+## See [THIS DIFF](https://github.com/ninjapretzel/jsExamples/commit/be2735f9ae4a2f5d304e4f0067a893524fa17050) as an example.
+Note how few lines changed: `+17, -30` out of 3 files with around 200 lines total.
+
+You always benefit from attempting to have a secure system,  
+and there is little detriment other than not understanding the highly refined encryption the security relies on.
 
 ## HTTPS
 HTTPS is a necessary part of any modern web application.  
@@ -74,6 +80,9 @@ This can be used, for example, to set up a default user record:
 	"hash":"$argon2i$v=19$m=4096,t=3,p=1$aZAhBFxhen3YlTwNPIYCIA$BESg0CzOvvrY11UIeSXxyJep1HHeSJguFcXQQdnooZ0"
 }
 ```
+The record barely changes. It could even not change at all, if you keep the field name of `"password"`.  
+The hash is still just a `String`.
+
 Trying to recover the original password from the hash is very difficult, even if you know the algorithm used.  
 Unlike a CRC, a single password may hash to many different values, all of which are valid.  
 all of the following hashes were generated with "password" as the source:  
@@ -136,7 +145,9 @@ undefined
 
 The details of JWT are interesting, but unnecessary to understand for now.
 Instead of just sending the username/id in plaintext, we encrypt the data in such a way that we gain these benefits:
-- We can verify (due to the encryption used) that the token was made by our server, and not forged.
+- We can easily send the token data to the client. (It is just a `String`)
+- The client can easily send the token data back to the server. (Again, it is just a `String`)
+- We can verify (via the nature of the encryption used) that the token was made by our server, and not forged.
 - We can extract the identifiable information from the token.
 
 
