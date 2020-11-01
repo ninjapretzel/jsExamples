@@ -58,4 +58,19 @@ function parseCSV(csv, sep = ',', keyIndex = 0) {
 	return ret;
 }
 
-module.exports = { parseCSV }
+// obj = { Colorado: { ... } }
+// mapping = { "Colorado": "US-CO" }
+// ret = { "US-CO": { ... } }
+function renameKeys(obj, mapping) {
+	const ret = {};
+	
+	for (let key in obj) {
+		if (mapping[key]) {
+			ret[mapping[key]] = obj[key];
+		}
+	}
+	
+	return ret;
+}
+
+module.exports = { parseCSV, renameKeys }

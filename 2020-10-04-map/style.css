@@ -6,3 +6,12 @@
 	stroke-opacity: 1;
 	stroke-width:0.5;
 }
+
+
+.map-labels {
+	fill: #ADD;
+	font-family: Tahoma;
+	font-size: 1.75em;
+	text-align: center;
+	z-index: -2;
+}
