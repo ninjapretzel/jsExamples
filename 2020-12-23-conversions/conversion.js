@@ -38,4 +38,6 @@ x = 42473
 console.log(x.toString(2)); // Convert to binary
 console.log(parseInt("1010010111101001", 2));
 
-console.log(x.toString(6)); // Convert to binary
+console.log(x.toString(16)); // Convert to hexadecimal
+console.log(x.toString(6)); // Convert to base 6
+console.log(x.toString(11)); // Convert to base 11
